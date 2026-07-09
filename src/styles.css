@@ -133,7 +133,8 @@ button:focus-visible {
   transform: translate(-50%, -50%) scale(1.015);
 }
 
-.ascii-eye > pre {
+.ascii-eye > pre,
+.ascii-eye-gaze-track > pre {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -171,6 +172,13 @@ button:focus-visible {
   animation: ascii-art-arrive 620ms 80ms steps(7, end) both;
 }
 
+.ascii-eye-gaze-track {
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(-1 * var(--look-distance)));
+  animation: ascii-interior-look 3.2s 120ms steps(9, end) infinite alternate both;
+}
+
 .ascii-eye-pupil-track {
   position: absolute;
   top: calc(50% + clamp(10px, 2.4vw, 20px));
@@ -178,7 +186,6 @@ button:focus-visible {
   width: max-content;
   height: max-content;
   transform: translate(-50%, -50%);
-  animation: ascii-pupil-look 2.2s 120ms steps(7, end) infinite alternate both;
 }
 
 .ascii-eye-pupil {
@@ -204,18 +211,18 @@ button:focus-visible {
   }
 }
 
-@keyframes ascii-pupil-look {
+@keyframes ascii-interior-look {
   0%,
   18% {
-    transform: translate(calc(-50% - var(--look-distance)), -50%);
+    transform: translateX(calc(-1 * var(--look-distance)));
   }
   44%,
   56% {
-    transform: translate(-50%, -50%);
+    transform: translateX(0);
   }
   82%,
   100% {
-    transform: translate(calc(-50% + var(--look-distance)), -50%);
+    transform: translateX(var(--look-distance));
   }
 }
 .page-shell {
@@ -833,7 +840,7 @@ button:focus-visible {
 
   .ascii-eye-shell,
   .ascii-eye-iris,
-  .ascii-eye-pupil-track {
+  .ascii-eye-gaze-track {
     animation: none !important;
   }
 }

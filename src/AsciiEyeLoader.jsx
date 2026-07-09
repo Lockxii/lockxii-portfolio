@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { EYE_COLS, EYE_IRIS, EYE_PUPIL, EYE_SHELL } from "./asciiEyeArt.js";
 
-const SESSION_KEY = "lockxii-ascii-loader-v4";
+const SESSION_KEY = "lockxii-ascii-loader-v6";
 const EXIT_MS = 420;
-const DISPLAY_MS = 2400;
+const DISPLAY_MS = 2800;
 
 function isForcedLoader() {
   return new URLSearchParams(window.location.search).get("loader") === "1";
@@ -87,9 +87,11 @@ export function AsciiEyeLoader() {
         aria-hidden="true"
       >
         <pre className="ascii-eye-shell">{EYE_SHELL}</pre>
-        <pre className="ascii-eye-iris">{EYE_IRIS}</pre>
-        <div className="ascii-eye-pupil-track">
-          <pre className="ascii-eye-pupil">{EYE_PUPIL}</pre>
+        <div className="ascii-eye-gaze-track">
+          <pre className="ascii-eye-iris">{EYE_IRIS}</pre>
+          <div className="ascii-eye-pupil-track">
+            <pre className="ascii-eye-pupil">{EYE_PUPIL}</pre>
+          </div>
         </div>
       </div>
     </div>
