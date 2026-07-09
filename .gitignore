@@ -5,3 +5,4 @@ dist/
 .qa/
 .reference-captures/
 design-qa.md
+.vercel
