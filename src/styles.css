@@ -85,6 +85,199 @@ button:focus-visible {
   color: var(--heading);
 }
 
+.ascii-loader {
+  --eye-x: 0px;
+  --eye-y: 0px;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  min-width: 320px;
+  min-height: 100dvh;
+  overflow: hidden;
+  place-items: center;
+  background: #020202;
+  color: #4b4b52;
+  opacity: 1;
+  isolation: isolate;
+  transition:
+    opacity 420ms cubic-bezier(0.4, 0, 1, 1),
+    visibility 420ms linear;
+}
+
+.ascii-loader.is-leaving {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.ascii-eye {
+  position: absolute;
+  top: 51%;
+  left: 50%;
+  width: min(86vw, 560px);
+  aspect-ratio: 1.55;
+  transform: translate(-50%, -50%);
+  filter: contrast(1.06);
+  transition:
+    filter 360ms ease,
+    transform 420ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+.is-leaving .ascii-eye {
+  filter: blur(6px) contrast(1.25);
+  transform: translate(-50%, -50%) scale(1.025);
+}
+
+.ascii-eye-blink {
+  position: absolute;
+  inset: 0;
+  animation: ascii-eye-blink 2.9s cubic-bezier(0.65, 0, 0.35, 1) both;
+  transform-origin: center;
+}
+
+.ascii-eye pre {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max-content;
+  margin: 0;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(5px, 1.05vw, 9.6px);
+  font-weight: 500;
+  line-height: 0.72;
+  letter-spacing: 0;
+  white-space: pre;
+  user-select: none;
+}
+
+.ascii-eye-shell {
+  color: #686873;
+  opacity: 0.84;
+  text-shadow: 0 0 8px rgba(122, 122, 136, 0.1);
+  transform: translate(-50%, -50%);
+  animation: ascii-shell-arrive 720ms steps(8, end) both;
+}
+
+.ascii-eye-iris-track {
+  position: absolute;
+  inset: 0;
+  transform: translate(var(--eye-x), var(--eye-y));
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ascii-eye-iris {
+  color: #e563b9;
+  opacity: 0.94;
+  text-shadow:
+    0 0 6px rgba(235, 89, 187, 0.38),
+    0 0 18px rgba(164, 57, 133, 0.15);
+  transform: translate(-50%, -50%);
+  animation: ascii-iris-pulse 980ms steps(6, end) infinite alternate;
+}
+
+.ascii-eye-pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #ff82d0;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(9px, 1vw, 15px);
+  line-height: 1;
+  text-shadow:
+    0 0 8px rgba(248, 112, 202, 0.7),
+    0 0 20px rgba(212, 72, 170, 0.38);
+  transform: translate(-50%, -50%);
+  animation: ascii-pupil-flicker 640ms steps(2, end) infinite;
+}
+
+.ascii-loader-prompt {
+  position: absolute;
+  bottom: max(9vh, 54px);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: clamp(24px, 5vw, 54px);
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  color: #77727d;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(11px, 1.5vw, 14px);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transform: translateX(-50%);
+  animation: ascii-prompt-arrive 420ms 420ms steps(5, end) both;
+}
+
+.ascii-loader-prompt span:first-child {
+  color: #ff72c5;
+  text-shadow: 0 0 12px rgba(255, 114, 197, 0.36);
+}
+
+.ascii-loader-prompt:hover span:last-child,
+.ascii-loader-prompt:focus-visible span:last-child {
+  color: #b9b4bd;
+}
+
+.ascii-loader-prompt:focus-visible {
+  outline-color: #df62b5;
+  outline-offset: 4px;
+}
+
+@keyframes ascii-eye-blink {
+  0%,
+  36%,
+  46%,
+  100% {
+    transform: scaleY(1);
+  }
+  41% {
+    transform: scaleY(0.055);
+  }
+}
+
+@keyframes ascii-shell-arrive {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 0.84;
+    filter: blur(0);
+  }
+}
+
+@keyframes ascii-iris-pulse {
+  from {
+    opacity: 0.62;
+  }
+  to {
+    opacity: 0.98;
+  }
+}
+
+@keyframes ascii-pupil-flicker {
+  0%,
+  78% {
+    opacity: 1;
+  }
+  79%,
+  100% {
+    opacity: 0.58;
+  }
+}
+
+@keyframes ascii-prompt-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .page-shell {
   width: min(100% - 32px, 576px);
   margin: 0 auto;
@@ -590,6 +783,27 @@ button:focus-visible {
 }
 
 @media (max-width: 640px) {
+  .ascii-eye {
+    top: 50%;
+    width: 92vw;
+  }
+
+  .ascii-eye pre {
+    font-size: clamp(4.7px, 1.35vw, 6px);
+  }
+
+  .ascii-eye-pupil {
+    font-size: 10px;
+  }
+
+  .ascii-loader-prompt {
+    bottom: max(9vh, 54px);
+    width: calc(100% - 48px);
+    justify-content: center;
+    gap: 22px;
+    font-size: 10px;
+  }
+
   .page-shell {
     width: 100%;
     padding: 80px 16px 0;
@@ -696,5 +910,13 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .ascii-eye-blink,
+  .ascii-eye-shell,
+  .ascii-eye-iris,
+  .ascii-eye-pupil,
+  .ascii-loader-prompt {
+    animation: none !important;
   }
 }
