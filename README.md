@@ -1,6 +1,6 @@
 # Lockxii Portfolio
 
-Personal portfolio for [Lockxii](https://github.com/Lockxii), featuring Designee, Prysm, Storecrew, and Boardly.
+Personal portfolio for [Lockxii](https://github.com/Lockxii), featuring Designee, Prysm, Storecrew, and BrandSearch.
 
 ## Live site
 

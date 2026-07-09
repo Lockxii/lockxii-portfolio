@@ -40,13 +40,13 @@ const PROJECTS = [
     imagePosition: "center top",
   },
   {
-    name: "Boardly",
+    name: "BrandSearch",
     description:
-      "A real-time collaborative whiteboard with an infinite canvas, live presence, and an AI assistant.",
-    category: "Open source",
+      "Market research and creative intelligence for winning products, ads, funnels, and competitors.",
+    category: "Market intel",
     year: "2026",
-    href: "https://boardly-r3xr.vercel.app/",
-    image: "/projects/boardly.png",
+    href: "https://brandsearch.co",
+    image: "/projects/brandsearch.png",
     imagePosition: "center top",
   },
 ];
@@ -59,9 +59,9 @@ const CRAFT = [
     imagePosition: "center 20%",
   },
   {
-    name: "Realtime Canvas",
-    description: "Live whiteboard, presence, and multiplayer cursors",
-    image: "/projects/boardly.png",
+    name: "Market Intelligence",
+    description: "7.5M+ stores, 160M+ ads, and competitor tracking",
+    image: "/projects/brandsearch.png",
     imagePosition: "center top",
   },
   {
