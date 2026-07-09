@@ -7,6 +7,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
+import { ContributionHeatmap } from "./ContributionHeatmap.jsx";
 import { TileWordmark } from "./TileWordmark.jsx";
 
 const PROJECTS = [
@@ -387,6 +388,43 @@ export function App() {
           onViewChange={updateCraftView}
         />
         {craftView === "list" ? <CraftList /> : <CraftGrid />}
+      </section>
+
+      <section className="activity-section reveal-block" aria-labelledby="activity-heading">
+        <div className="activity-header">
+          <div>
+            <h2 id="activity-heading">GitHub activity</h2>
+            <p>Real activity from 2026</p>
+          </div>
+          <a
+            href="https://github.com/Lockxii"
+            target="_blank"
+            rel="noreferrer"
+          >
+            @Lockxii ↗
+          </a>
+        </div>
+
+        <dl className="github-stats">
+          <div>
+            <dt>Contributions</dt>
+            <dd>3,055</dd>
+          </div>
+          <div>
+            <dt>Public commits</dt>
+            <dd>416</dd>
+          </div>
+          <div>
+            <dt>Private activity</dt>
+            <dd>2,633</dd>
+          </div>
+          <div>
+            <dt>Public repos</dt>
+            <dd>9</dd>
+          </div>
+        </dl>
+
+        <ContributionHeatmap />
       </section>
 
       <div className="wordmark-section reveal-block">

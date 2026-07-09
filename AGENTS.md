@@ -9,3 +9,4 @@ When implementing from a selected generated mock, treat that image as the source
 ## Durable design decisions
 
 - Do not show an intro or loader animation; open the portfolio directly on its content.
+- GitHub activity must use real profile data rather than generated placeholder values.
