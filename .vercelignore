@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.npm-cache/
+.qa/
+.reference-captures/
+.git/
+.vercel/
+design-qa.md
+.DS_Store
