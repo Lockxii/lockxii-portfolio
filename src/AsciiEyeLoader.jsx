@@ -1,89 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { EYE_COLS, EYE_IRIS, EYE_PUPIL, EYE_SHELL } from "./asciiEyeArt.js";
 
-const SESSION_KEY = "lockxii-ascii-loader-v2";
+const SESSION_KEY = "lockxii-ascii-loader-v4";
 const EXIT_MS = 420;
-const DISPLAY_MS = 1900;
-const COLS = 79;
-const ROWS = 75;
-
-function hash(x, y) {
-  const value = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
-  return value - Math.floor(value);
-}
-
-function glyph(value) {
-  if (value > 0.86) return "*";
-  if (value > 0.63) return "+";
-  if (value > 0.34) return ":";
-  return ".";
-}
-
-function createEyeLayers() {
-  const shell = [];
-  const iris = [];
-  const centerX = (COLS - 1) / 2;
-  const centerY = (ROWS - 1) / 2;
-
-  for (let row = 0; row < ROWS; row += 1) {
-    const shellRow = [];
-    const irisRow = [];
-
-    for (let column = 0; column < COLS; column += 1) {
-      const x = (column - centerX) / centerX;
-      const y = (row - centerY) / centerY;
-      const random = hash(column, row);
-      const absX = Math.abs(x);
-      const eyeHeight =
-        absX < 1 ? 0.22 * Math.pow(1 - Math.pow(absX, 1.38), 0.72) : 0;
-      const insideEye = absX < 0.98 && Math.abs(y) < eyeHeight;
-      const lidDistance = Math.abs(Math.abs(y) - eyeHeight);
-      const onLid = absX < 0.98 && lidDistance < 0.058 + random * 0.02;
-
-      const diamond = absX * 0.74 + Math.abs(y) * 0.82;
-      const inAura = diamond < 0.92 && diamond > 0.46;
-      const verticalRay =
-        Math.abs(x) < 0.058 + random * 0.03 &&
-        Math.abs(y) > 0.32 &&
-        Math.abs(y) < 0.95;
-      const sideRay =
-        Math.abs(y) < 0.08 + random * 0.025 &&
-        absX > 0.62 &&
-        absX < 0.98;
-      const auraDot = inAura && random > 0.68 + diamond * 0.1;
-      const innerDust = insideEye && random > 0.9;
-
-      let shellCharacter = " ";
-      if (onLid) shellCharacter = glyph(1 - lidDistance * 9 + random * 0.18);
-      else if (verticalRay || sideRay) shellCharacter = random > 0.34 ? ":" : ".";
-      else if (auraDot || innerDust) shellCharacter = glyph(random * 0.72);
-
-      const irisX = x / 0.55;
-      const irisY = y / 0.65;
-      const radius = Math.hypot(irisX, irisY);
-      const irisVisible = insideEye && radius < 0.96 && radius > 0.44;
-      let irisCharacter = " ";
-      if (irisVisible && random > 0.18) {
-        const ring = 1 - Math.abs(radius - 0.61);
-        irisCharacter = glyph(ring * 0.78 + random * 0.38);
-      } else if (insideEye && radius <= 0.44 && random > 0.94) {
-        irisCharacter = ".";
-      }
-
-      shellRow.push(shellCharacter);
-      irisRow.push(irisCharacter);
-    }
-
-    shell.push(shellRow.join(""));
-    iris.push(irisRow.join(""));
-  }
-
-  return {
-    shell: shell.join("\n"),
-    iris: iris.join("\n"),
-  };
-}
-
-const EYE = createEyeLayers();
+const DISPLAY_MS = 2400;
 
 function isForcedLoader() {
   return new URLSearchParams(window.location.search).get("loader") === "1";
@@ -104,7 +24,6 @@ function shouldShowLoader() {
 export function AsciiEyeLoader() {
   const [visible, setVisible] = useState(shouldShowLoader);
   const [leaving, setLeaving] = useState(false);
-  const loaderRef = useRef(null);
   const exitTimerRef = useRef(0);
   const leavingRef = useRef(false);
 
@@ -154,39 +73,25 @@ export function AsciiEyeLoader() {
 
   if (!visible) return null;
 
-  function trackPointer(event) {
-    const loader = loaderRef.current;
-    if (!loader) return;
-
-    const x = (event.clientX / window.innerWidth - 0.5) * 2;
-    const y = (event.clientY / window.innerHeight - 0.5) * 2;
-    loader.style.setProperty("--eye-x", `${Math.max(-1, Math.min(1, x)) * 5}px`);
-    loader.style.setProperty("--eye-y", `${Math.max(-1, Math.min(1, y)) * 3}px`);
-  }
-
   return (
     <div
-      ref={loaderRef}
       className={`ascii-loader${leaving ? " is-leaving" : ""}`}
-      role="status"
-      aria-live="polite"
-      aria-label="Loading Lockxii portfolio"
-      onPointerMove={trackPointer}
+      role="button"
+      tabIndex={0}
+      aria-label="Skip intro"
+      onPointerDown={dismiss}
     >
-      <div className="ascii-eye" aria-hidden="true">
-        <div className="ascii-eye-blink">
-          <pre className="ascii-eye-shell">{EYE.shell}</pre>
-          <div className="ascii-eye-iris-track">
-            <pre className="ascii-eye-iris">{EYE.iris}</pre>
-            <span className="ascii-eye-pupil">@</span>
-          </div>
+      <div
+        className="ascii-eye"
+        style={{ "--eye-cols": EYE_COLS }}
+        aria-hidden="true"
+      >
+        <pre className="ascii-eye-shell">{EYE_SHELL}</pre>
+        <pre className="ascii-eye-iris">{EYE_IRIS}</pre>
+        <div className="ascii-eye-pupil-track">
+          <pre className="ascii-eye-pupil">{EYE_PUPIL}</pre>
         </div>
       </div>
-
-      <button className="ascii-loader-prompt" type="button" onClick={dismiss}>
-        <span>[ initializing lockxii ]</span>
-        <span>enter portfolio</span>
-      </button>
     </div>
   );
 }
