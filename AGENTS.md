@@ -10,3 +10,4 @@ When implementing from a selected generated mock, treat that image as the source
 
 - Do not show an intro or loader animation; open the portfolio directly on its content.
 - GitHub activity must use real profile data rather than generated placeholder values.
+- The contribution heatmap must fill the card width and show each cell's count in a nearby tooltip on hover or focus.

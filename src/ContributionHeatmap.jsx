@@ -89,6 +89,8 @@ export function ContributionHeatmap() {
               style={{
                 animationDelay: `${day.week * 45 + day.weekday * 11}ms`,
               }}
+              data-tooltip={`${formatNumber(day.count)} contribution${day.count === 1 ? "" : "s"}`}
+              data-week={day.week}
               aria-label={`${day.count} contribution${day.count === 1 ? "" : "s"} on ${DATE_FORMATTER.format(day.date)}`}
               onFocus={() => setHoveredDay(day)}
               onBlur={() => setHoveredDay(null)}
