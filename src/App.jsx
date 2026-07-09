@@ -7,6 +7,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
+import { TileWordmark } from "./TileWordmark.jsx";
 
 const PROJECTS = [
   {
@@ -386,6 +387,10 @@ export function App() {
         />
         {craftView === "list" ? <CraftList /> : <CraftGrid />}
       </section>
+
+      <div className="wordmark-section reveal-block">
+        <TileWordmark word="lockxii" />
+      </div>
 
       <section className="elsewhere reveal-block" aria-labelledby="elsewhere-heading">
         <p className="eyebrow" id="elsewhere-heading">

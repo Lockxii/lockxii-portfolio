@@ -427,6 +427,26 @@ button:focus-visible {
   gap: 18px;
 }
 
+.wordmark-section {
+  margin-top: 72px;
+}
+
+.tile-wordmark {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: clip;
+}
+
+.tile-wordmark-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 .craft-card {
   overflow: clip;
   border: 1px solid var(--line);
@@ -626,6 +646,14 @@ button:focus-visible {
 
   .craft-media {
     height: 220px;
+  }
+
+  .wordmark-section {
+    margin-top: 64px;
+  }
+
+  .tile-wordmark {
+    height: 132px;
   }
 
   .elsewhere {
