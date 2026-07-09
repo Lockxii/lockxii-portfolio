@@ -7,7 +7,6 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { AsciiEyeLoader } from "./AsciiEyeLoader.jsx";
 import { TileWordmark } from "./TileWordmark.jsx";
 
 const PROJECTS = [
@@ -300,7 +299,6 @@ export function App() {
 
   return (
     <>
-      <AsciiEyeLoader />
       <main className="page-shell">
       <header className="site-header reveal-block">
         <div>
