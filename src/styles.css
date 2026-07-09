@@ -97,12 +97,8 @@ button:focus-visible {
   border: 0;
   background: #ffffff;
   color: #171719;
-  opacity: 1;
   isolation: isolate;
   cursor: pointer;
-  transition:
-    opacity 420ms cubic-bezier(0.4, 0, 1, 1),
-    visibility 420ms linear;
 }
 
 .ascii-loader:focus-visible {
@@ -111,24 +107,26 @@ button:focus-visible {
 }
 
 .ascii-loader.is-leaving {
-  visibility: hidden;
-  opacity: 0;
+  pointer-events: none;
 }
 
 .ascii-eye {
-  --look-distance: clamp(14px, 2.4vw, 22px);
+  --look-distance: clamp(8px, 1.5vw, 13px);
   position: absolute;
   top: 50%;
   left: 50%;
   width: min(76vw, 460px);
   height: min(68dvh, 580px);
+  opacity: 1;
   transform: translate(-50%, -50%);
   transition:
+    opacity 300ms ease,
     filter 360ms ease,
     transform 420ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 .is-leaving .ascii-eye {
+  opacity: 0;
   filter: blur(5px);
   transform: translate(-50%, -50%) scale(1.015);
 }
@@ -172,11 +170,18 @@ button:focus-visible {
   animation: ascii-art-arrive 620ms 80ms steps(7, end) both;
 }
 
+.ascii-eye-gaze-window {
+  position: absolute;
+  inset: 0;
+  clip-path: ellipse(25% 10% at 50% 53%);
+}
+
 .ascii-eye-gaze-track {
   position: absolute;
   inset: 0;
   transform: translateX(calc(-1 * var(--look-distance)));
-  animation: ascii-interior-look 3.2s 120ms steps(9, end) infinite alternate both;
+  animation: ascii-interior-look 3.8s 120ms cubic-bezier(0.45, 0, 0.55, 1)
+    infinite alternate both;
 }
 
 .ascii-eye-pupil-track {
@@ -213,14 +218,13 @@ button:focus-visible {
 
 @keyframes ascii-interior-look {
   0%,
-  18% {
+  16% {
     transform: translateX(calc(-1 * var(--look-distance)));
   }
-  44%,
-  56% {
+  50% {
     transform: translateX(0);
   }
-  82%,
+  84%,
   100% {
     transform: translateX(var(--look-distance));
   }
