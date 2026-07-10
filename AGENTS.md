@@ -20,3 +20,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep English as the default and provide a persistent EN/FR toggle in the header that translates all visible copy, controls, accessibility labels, heatmap tooltips, dates, and metadata.
 - French copy should read as naturally authored rather than literally translated; keep timeline periods inside their date column, using "Depuis 2026" for the current entry.
 - Keep craft-list rows on one line on desktop, using smaller secondary copy when needed; education school names should link to their official site when a URL is available.
+- Use dark mode as the first-visit default while preserving an explicit saved light-mode choice.

@@ -238,15 +238,20 @@ function EducationTimeline({ language, copy }) {
 function useTheme() {
   const [theme, setTheme] = useState(() => {
     try {
-      return window.localStorage.getItem("portfolio-theme") || "light";
+      return window.localStorage.getItem("portfolio-theme") === "light"
+        ? "light"
+        : "dark";
     } catch {
-      return "light";
+      return "dark";
     }
   });
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", theme === "dark" ? "#101010" : "#ffffff");
     try {
       window.localStorage.setItem("portfolio-theme", theme);
     } catch {
