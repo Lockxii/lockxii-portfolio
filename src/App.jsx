@@ -9,109 +9,20 @@ import {
 } from "lucide-react";
 import { AmbientTileField } from "./AmbientTileField.jsx";
 import { ContributionHeatmap } from "./ContributionHeatmap.jsx";
+import {
+  COPY,
+  CRAFT,
+  EDUCATION,
+  PROJECTS,
+  SOCIALS,
+  localized,
+} from "./content.js";
 import { TileWordmark } from "./TileWordmark.jsx";
 
-const PROJECTS = [
-  {
-    name: "Designee",
-    description:
-      "A searchable library of 300+ copy-ready React components.",
-    category: "Product",
-    year: "2026",
-    href: "https://designee.dev",
-    image: "/projects/designee.png",
-    imagePosition: "center 18%",
-  },
-  {
-    name: "Prysm",
-    description:
-      "A creator intelligence workspace with web, Chrome, and Shopify tools.",
-    category: "SaaS",
-    year: "2026",
-    href: "https://tryprysm.com",
-    image: "/projects/prysm.webp",
-    imagePosition: "center top",
-  },
-  {
-    name: "Storecrew",
-    description:
-      "AI agents that turn briefs, URLs, and products into launch-ready Shopify storefronts.",
-    category: "Commerce",
-    year: "2026",
-    href: "https://www.storecrew.io",
-    image: "/projects/storecrew.png",
-    imagePosition: "center top",
-  },
-  {
-    name: "BrandSearch",
-    description:
-      "Market research and creative intelligence for winning products, ads, funnels, and competitors.",
-    category: "Market intel",
-    year: "2026",
-    href: "https://brandsearch.co",
-    image: "/projects/brandsearch.png",
-    imagePosition: "center top",
-  },
-];
-
-const CRAFT = [
-  {
-    name: "Component Registry",
-    description: "314 copy-ready React interactions and polished states",
-    image: "/projects/designee.png",
-    imagePosition: "center 20%",
-  },
-  {
-    name: "Market Intelligence",
-    description: "7.5M+ stores, 160M+ ads, and competitor tracking",
-    image: "/projects/brandsearch.png",
-    imagePosition: "center top",
-  },
-  {
-    name: "Creator Extension",
-    description: "One-click creator research across the social web",
-    image: "/projects/prysm.webp",
-    imagePosition: "center top",
-  },
-  {
-    name: "Shopify Agents",
-    description: "From product URL to a branded Shopify storefront",
-    image: "/projects/storecrew.png",
-    imagePosition: "center top",
-  },
-];
-
-const EDUCATION = [
-  {
-    period: "2026 — Now",
-    school: "ENIGMA School",
-    location: "Lille · EuraTechnologies",
-    detail: "Bachelor Coordinateur de Projets Informatiques",
-    href: "https://www.enigma-school.com/",
-    current: true,
-  },
-  {
-    period: "2023 — 2026",
-    school: "Lycée Sainte Marie",
-    location: "Beaucamps-Ligny",
-    detail: "Baccalauréat général · Mathématiques & NSI",
-    award: "Mention Assez bien",
-  },
-  {
-    period: "2019 — 2023",
-    school: "Collège Sainte Marie",
-    location: "Beaucamps-Ligny",
-    detail: "Diplôme national du brevet",
-    award: "Mention Très bien",
-  },
-];
-
-const SOCIALS = [
-  { label: "GitHub", value: "@Lockxii", href: "https://github.com/Lockxii" },
-  { label: "Designee", value: "designee.dev", href: "https://designee.dev" },
-  { label: "Prysm", value: "tryprysm.com", href: "https://tryprysm.com" },
-  { label: "Discord", value: "@lockxi", href: "https://discord.com/lockxi" },
-];
+const NUMBER_FORMATTERS = {
+  en: new Intl.NumberFormat("en-US"),
+  fr: new Intl.NumberFormat("fr-FR"),
+};
 
 function IconButton({ label, pressed, onClick, children }) {
   return (
@@ -127,18 +38,41 @@ function IconButton({ label, pressed, onClick, children }) {
   );
 }
 
-function ViewToggle({ value, onChange, section }) {
+function LanguageToggle({ language, labels, onChange }) {
   return (
-    <div className="view-toggle" aria-label={`${section} display`}>
+    <div className="language-toggle" role="group" aria-label={labels.languageLabel}>
+      <button
+        type="button"
+        aria-label={labels.selectEnglish}
+        aria-pressed={language === "en"}
+        onClick={() => onChange("en")}
+      >
+        EN
+      </button>
+      <button
+        type="button"
+        aria-label={labels.selectFrench}
+        aria-pressed={language === "fr"}
+        onClick={() => onChange("fr")}
+      >
+        FR
+      </button>
+    </div>
+  );
+}
+
+function ViewToggle({ value, onChange, section, labels }) {
+  return (
+    <div className="view-toggle" aria-label={labels.viewLabel(section)}>
       <IconButton
-        label={`${section}: list view`}
+        label={labels.listView(section)}
         pressed={value === "list"}
         onClick={() => onChange("list")}
       >
         <List aria-hidden="true" />
       </IconButton>
       <IconButton
-        label={`${section}: grid view`}
+        label={labels.gridView(section)}
         pressed={value === "grid"}
         onClick={() => onChange("grid")}
       >
@@ -148,16 +82,21 @@ function ViewToggle({ value, onChange, section }) {
   );
 }
 
-function SectionHeader({ title, view, onViewChange }) {
+function SectionHeader({ id, title, view, onViewChange, labels }) {
   return (
     <div className="section-header">
-      <h2 id={`${title.toLowerCase()}-heading`}>{title}</h2>
-      <ViewToggle value={view} onChange={onViewChange} section={title} />
+      <h2 id={id}>{title}</h2>
+      <ViewToggle
+        value={view}
+        onChange={onViewChange}
+        section={title}
+        labels={labels}
+      />
     </div>
   );
 }
 
-function ProjectGrid({ projects }) {
+function ProjectGrid({ projects, language, labels }) {
   return (
     <div className="project-grid" id="project-list">
       {projects.map((project) => (
@@ -171,7 +110,7 @@ function ProjectGrid({ projects }) {
           <div className="project-media">
             <img
               src={project.image}
-              alt={`${project.name} interface preview`}
+              alt={labels.projectPreview(project.name)}
               style={{ objectPosition: project.imagePosition }}
               loading="lazy"
               decoding="async"
@@ -179,7 +118,7 @@ function ProjectGrid({ projects }) {
           </div>
           <div className="project-copy">
             <h3>{project.name}</h3>
-            <p>{project.description}</p>
+            <p>{localized(project.description, language)}</p>
           </div>
         </a>
       ))}
@@ -187,7 +126,7 @@ function ProjectGrid({ projects }) {
   );
 }
 
-function ProjectList({ projects }) {
+function ProjectList({ projects, language }) {
   return (
     <ul className="project-list" id="project-list">
       {projects.map((project) => (
@@ -195,7 +134,7 @@ function ProjectList({ projects }) {
           <a href={project.href} target="_blank" rel="noreferrer">
             <span>{project.name}</span>
             <span className="project-meta">
-              {project.category} · {project.year}
+              {localized(project.category, language)} · {project.year}
             </span>
           </a>
         </li>
@@ -204,59 +143,64 @@ function ProjectList({ projects }) {
   );
 }
 
-function CraftList() {
+function CraftList({ language }) {
   return (
     <ul className="craft-list" id="craft-list">
       {CRAFT.map((item) => (
-        <li key={item.name}>
-          <span>{item.name}</span>
-          <span>{item.description}</span>
+        <li key={item.id}>
+          <span>{localized(item.name, language)}</span>
+          <span>{localized(item.description, language)}</span>
         </li>
       ))}
     </ul>
   );
 }
 
-function CraftGrid() {
+function CraftGrid({ language, labels }) {
   return (
     <div className="craft-grid" id="craft-list">
-      {CRAFT.map((item) => (
-        <article className="craft-card reveal-item" key={item.name}>
-          <div className="craft-media">
-            <img
-              src={item.image}
-              alt={`${item.name} preview`}
-              style={{ objectPosition: item.imagePosition }}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <h3>{item.name}</h3>
-          <p>{item.description}</p>
-        </article>
-      ))}
+      {CRAFT.map((item) => {
+        const name = localized(item.name, language);
+        return (
+          <article className="craft-card reveal-item" key={item.id}>
+            <div className="craft-media">
+              <img
+                src={item.image}
+                alt={labels.craftPreview(name)}
+                style={{ objectPosition: item.imagePosition }}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <h3>{name}</h3>
+            <p>{localized(item.description, language)}</p>
+          </article>
+        );
+      })}
     </div>
   );
 }
 
-function EducationTimeline() {
+function EducationTimeline({ language, copy }) {
   return (
     <section
       className="education-section reveal-block"
       aria-labelledby="education-heading"
     >
       <div className="education-header">
-        <h2 id="education-heading">Education</h2>
-        <span aria-hidden="true">03 entries</span>
+        <h2 id="education-heading">{copy.sections.education}</h2>
+        <span aria-hidden="true">
+          {String(EDUCATION.length).padStart(2, "0")} {copy.education.entries}
+        </span>
       </div>
 
       <ol className="education-list">
         {EDUCATION.map((entry) => (
           <li
             className={entry.current ? "education-entry is-current" : "education-entry"}
-            key={entry.school}
+            key={entry.id}
           >
-            <p className="education-period">{entry.period}</p>
+            <p className="education-period">{localized(entry.period, language)}</p>
             <span className="education-marker" aria-hidden="true" />
             <div className="education-copy">
               <div className="education-title-row">
@@ -270,12 +214,18 @@ function EducationTimeline() {
                     entry.school
                   )}
                 </h3>
-                {entry.current ? <span className="education-current">Current</span> : null}
+                {entry.current ? (
+                  <span className="education-current">{copy.education.current}</span>
+                ) : null}
               </div>
               <p className="education-location">{entry.location}</p>
               <p className="education-detail">
-                <span>{entry.detail}</span>
-                {entry.award ? <span className="education-award">{entry.award}</span> : null}
+                <span>{localized(entry.detail, language)}</span>
+                {entry.award ? (
+                  <span className="education-award">
+                    {localized(entry.award, language)}
+                  </span>
+                ) : null}
               </p>
             </div>
           </li>
@@ -307,12 +257,50 @@ function useTheme() {
   return [theme, setTheme];
 }
 
+function useLanguage() {
+  const [language, setLanguage] = useState(() => {
+    try {
+      return window.localStorage.getItem("portfolio-language") === "fr"
+        ? "fr"
+        : "en";
+    } catch {
+      return "en";
+    }
+  });
+
+  useEffect(() => {
+    const copy = COPY[language];
+    document.documentElement.lang = language;
+    document.title = copy.meta.title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", copy.meta.description);
+    document
+      .querySelector('meta[property="og:title"]')
+      ?.setAttribute("content", copy.meta.title);
+    document
+      .querySelector('meta[property="og:description"]')
+      ?.setAttribute("content", copy.meta.description);
+
+    try {
+      window.localStorage.setItem("portfolio-language", language);
+    } catch {
+      // The selected language still works when storage is unavailable.
+    }
+  }, [language]);
+
+  return [language, setLanguage];
+}
+
 export function App() {
   const [theme, setTheme] = useTheme();
+  const [language, setLanguage] = useLanguage();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [projectView, setProjectView] = useState("grid");
   const [craftView, setCraftView] = useState("list");
   const [showAll, setShowAll] = useState(false);
+  const copy = COPY[language];
+  const numberFormatter = NUMBER_FORMATTERS[language];
 
   const visibleProjects = useMemo(
     () => (showAll ? PROJECTS : PROJECTS.slice(0, 2)),
@@ -356,6 +344,12 @@ export function App() {
     playTick();
   }
 
+  function changeLanguage(nextLanguage) {
+    if (nextLanguage === language) return;
+    setLanguage(nextLanguage);
+    playTick();
+  }
+
   function toggleSound() {
     if (!soundEnabled) {
       setSoundEnabled(true);
@@ -377,11 +371,16 @@ export function App() {
       <header className="site-header reveal-block">
         <div>
           <h1>Lockxii</h1>
-          <p>Fullstack Developer</p>
+          <p>{copy.header.role}</p>
         </div>
         <div className="header-actions">
+          <LanguageToggle
+            language={language}
+            labels={copy.header}
+            onChange={changeLanguage}
+          />
           <IconButton
-            label={soundEnabled ? "Disable sound" : "Enable sound"}
+            label={soundEnabled ? copy.header.disableSound : copy.header.enableSound}
             pressed={soundEnabled}
             onClick={toggleSound}
           >
@@ -392,7 +391,11 @@ export function App() {
             )}
           </IconButton>
           <IconButton
-            label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+            label={
+              theme === "light"
+                ? copy.header.switchToDark
+                : copy.header.switchToLight
+            }
             pressed={theme === "dark"}
             onClick={toggleTheme}
           >
@@ -405,42 +408,46 @@ export function App() {
         </div>
       </header>
 
-      <section className="intro reveal-block" aria-label="Introduction">
+      <section className="intro reveal-block" aria-label={copy.accessibility.intro}>
         <p>
-          Hi, I&apos;m Lockxii, a <span className="text-emphasis">fullstack developer</span>{" "}
-          focused on digital products.
+          {copy.intro.greeting}{" "}
+          <span className="text-emphasis">{copy.intro.role}</span>{" "}
+          {copy.intro.focus}
         </p>
         <p>
-          I recently built <a href="https://designee.dev">Designee</a>, a
-          searchable library of 300+ React components. I&apos;m also working on{" "}
-          <a href="https://tryprysm.com">Prysm</a>, a creator intelligence
-          workspace spanning web, Chrome, and Shopify.
+          {copy.intro.built} <a href="https://designee.dev">Designee</a>
+          {copy.intro.designee} {copy.intro.prysmLead}{" "}
+          <a href="https://tryprysm.com">Prysm</a>
+          {copy.intro.prysm}
         </p>
+        <p>{copy.intro.care}</p>
         <p>
-          I care deeply about useful interfaces and obsess over products that
-          feel fast, polished, and straightforward.
-        </p>
-        <p>
-          Want to see more? Browse my{" "}
-          <a href="https://github.com/Lockxii">GitHub</a> or see what I&apos;m
-          building on <a href="https://designee.dev">Designee</a>.
+          {copy.intro.more}{" "}
+          <a href="https://github.com/Lockxii">GitHub</a>{" "}
+          {copy.intro.moreJoin}{" "}
+          <a href="https://designee.dev">Designee</a>.
         </p>
       </section>
 
       <section className="work-section reveal-block" aria-labelledby="projects-heading">
         <div className="section-header">
-          <h2 id="projects-heading">Projects</h2>
+          <h2 id="projects-heading">{copy.sections.projects}</h2>
           <ViewToggle
             value={projectView}
             onChange={updateProjectView}
-            section="Projects"
+            section={copy.sections.projects}
+            labels={copy.accessibility}
           />
         </div>
 
         {projectView === "grid" ? (
-          <ProjectGrid projects={visibleProjects} />
+          <ProjectGrid
+            projects={visibleProjects}
+            language={language}
+            labels={copy.accessibility}
+          />
         ) : (
-          <ProjectList projects={visibleProjects} />
+          <ProjectList projects={visibleProjects} language={language} />
         )}
 
         <button
@@ -450,26 +457,30 @@ export function App() {
           aria-expanded={showAll}
           aria-controls="project-list"
         >
-          {showAll ? "See less" : "See more"}
+          {showAll ? copy.controls.seeLess : copy.controls.seeMore}
         </button>
       </section>
 
       <section className="craft-section reveal-block" aria-labelledby="craft-heading">
         <SectionHeader
-          title="Craft"
+          id="craft-heading"
+          title={copy.sections.craft}
           view={craftView}
           onViewChange={updateCraftView}
+          labels={copy.accessibility}
         />
-        {craftView === "list" ? <CraftList /> : <CraftGrid />}
+        {craftView === "list" ? (
+          <CraftList language={language} />
+        ) : (
+          <CraftGrid language={language} labels={copy.accessibility} />
+        )}
       </section>
-
-      <EducationTimeline />
 
       <section className="activity-section reveal-block" aria-labelledby="activity-heading">
         <div className="activity-header">
           <div>
-            <h2 id="activity-heading">GitHub activity</h2>
-            <p>Real activity from 2026</p>
+            <h2 id="activity-heading">{copy.sections.activity}</h2>
+            <p>{copy.activity.subtitle}</p>
           </div>
           <a
             href="https://github.com/Lockxii"
@@ -482,25 +493,27 @@ export function App() {
 
         <dl className="github-stats">
           <div>
-            <dt>Contributions</dt>
-            <dd>3,059</dd>
+            <dt>{copy.activity.contributions}</dt>
+            <dd>{numberFormatter.format(3059)}</dd>
           </div>
           <div>
-            <dt>Public commits</dt>
-            <dd>419</dd>
+            <dt>{copy.activity.publicCommits}</dt>
+            <dd>{numberFormatter.format(419)}</dd>
           </div>
           <div>
-            <dt>Private activity</dt>
-            <dd>2,634</dd>
+            <dt>{copy.activity.privateActivity}</dt>
+            <dd>{numberFormatter.format(2634)}</dd>
           </div>
           <div>
-            <dt>Public repos</dt>
-            <dd>9</dd>
+            <dt>{copy.activity.publicRepos}</dt>
+            <dd>{numberFormatter.format(9)}</dd>
           </div>
         </dl>
 
-        <ContributionHeatmap />
+        <ContributionHeatmap language={language} />
       </section>
+
+      <EducationTimeline language={language} copy={copy} />
 
       <div className="wordmark-section reveal-block">
         <TileWordmark word="lockxii" theme={theme} />
@@ -508,9 +521,9 @@ export function App() {
 
       <section className="elsewhere reveal-block" aria-labelledby="elsewhere-heading">
         <p className="eyebrow" id="elsewhere-heading">
-          Elsewhere
+          {copy.sections.elsewhere}
         </p>
-        <p>Where to find me online</p>
+        <p>{copy.elsewhere.subtitle}</p>
         <ul>
           {SOCIALS.map((social) => (
             <li key={social.label}>
@@ -524,7 +537,7 @@ export function App() {
       </section>
 
         <footer className="site-footer reveal-block">
-          <span>Last updated · July 2026</span>
+          <span>{copy.footer.updated}</span>
           <span>© 2026 Lockxii</span>
         </footer>
       </main>

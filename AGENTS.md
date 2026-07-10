@@ -16,4 +16,5 @@ When implementing from a selected generated mock, treat that image as the source
 - The wide desktop backdrop animation must be clearly perceptible within a couple of seconds: use visible square color changes and a slow regional wave in the side gutters, while keeping the centered column calm, hiding the effect on tablet/mobile, and respecting reduced-motion.
 - In dark mode, the TileWordmark color wave must reuse the exact coral, rose, plum, and amber palette from the animated side background; keep the light-mode wave blue and cobalt.
 - Use a crisp pixel-eye favicon on a black rounded tile, with a coral pupil and the portfolio's rose, plum, and amber accents.
-- The education section should be a compact editorial timeline rather than a large résumé card, and must include ENIGMA School in Lille plus the user's bac and brevet distinctions.
+- The education section should be a compact editorial timeline below GitHub activity, ordered oldest to newest and ending with ENIGMA School; it must include the user's bac and brevet distinctions.
+- Keep English as the default and provide a persistent EN/FR toggle in the header that translates all visible copy, controls, accessibility labels, heatmap tooltips, dates, and metadata.

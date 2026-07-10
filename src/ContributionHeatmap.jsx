@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const DAY_MS = 86_400_000;
 const START_DATE = Date.UTC(2025, 6, 13);
+const UPDATE_DATE = new Date(Date.UTC(2026, 6, 10));
+const TOTAL_CONTRIBUTIONS = 3198;
 const CONTRIBUTION_COUNTS = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -37,12 +39,20 @@ const DAYS = CONTRIBUTION_COUNTS.map((count, index) => ({
   weekday: index % 7,
 }));
 
-const DATE_FORMATTER = new Intl.DateTimeFormat("en", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-  timeZone: "UTC",
-});
+const HEATMAP_COPY = {
+  en: {
+    locale: "en-US",
+    lastWeeks: "last 52 weeks",
+    on: "on",
+    updated: "Updated",
+  },
+  fr: {
+    locale: "fr-FR",
+    lastWeeks: "52 dernières semaines",
+    on: "le",
+    updated: "Mis à jour le",
+  },
+};
 
 function contributionLevel(count) {
   if (!count) return 0;
@@ -52,15 +62,29 @@ function contributionLevel(count) {
   return 4;
 }
 
-function formatNumber(value) {
-  return new Intl.NumberFormat("en-US").format(value);
-}
-
-export function ContributionHeatmap() {
+export function ContributionHeatmap({ language = "en" }) {
   const [hoveredDay, setHoveredDay] = useState(null);
   const [inView, setInView] = useState(false);
   const rootRef = useRef(null);
   const scrollRef = useRef(null);
+  const copy = HEATMAP_COPY[language === "fr" ? "fr" : "en"];
+  const formatters = useMemo(
+    () => ({
+      date: new Intl.DateTimeFormat(copy.locale, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC",
+      }),
+      shortDate: new Intl.DateTimeFormat(copy.locale, {
+        month: "short",
+        day: "numeric",
+        timeZone: "UTC",
+      }),
+      number: new Intl.NumberFormat(copy.locale),
+    }),
+    [copy.locale],
+  );
 
   useEffect(() => {
     const scroller = scrollRef.current;
@@ -87,9 +111,13 @@ export function ContributionHeatmap() {
     return () => observer.disconnect();
   }, []);
 
+  function contributionCopy(count) {
+    return `${formatters.number.format(count)} contribution${count === 1 ? "" : "s"}`;
+  }
+
   const hoveredCopy = hoveredDay
-    ? `${formatNumber(hoveredDay.count)} contribution${hoveredDay.count === 1 ? "" : "s"} · ${DATE_FORMATTER.format(hoveredDay.date)}`
-    : "3,198 contributions · last 52 weeks";
+    ? `${contributionCopy(hoveredDay.count)} · ${formatters.date.format(hoveredDay.date)}`
+    : `${formatters.number.format(TOTAL_CONTRIBUTIONS)} contributions · ${copy.lastWeeks}`;
 
   return (
     <div className="contribution-heatmap" ref={rootRef}>
@@ -116,9 +144,9 @@ export function ContributionHeatmap() {
                 style={{
                   animationDelay: `${day.week * 14 + day.weekday * 5}ms`,
                 }}
-                data-tooltip={`${formatNumber(day.count)} contribution${day.count === 1 ? "" : "s"}`}
+                data-tooltip={contributionCopy(day.count)}
                 data-week={day.week}
-                aria-label={`${day.count} contribution${day.count === 1 ? "" : "s"} on ${DATE_FORMATTER.format(day.date)}`}
+                aria-label={`${contributionCopy(day.count)} ${copy.on} ${formatters.date.format(day.date)}`}
                 onFocus={() => setHoveredDay(day)}
                 onBlur={() => setHoveredDay(null)}
                 onPointerEnter={() => setHoveredDay(day)}
@@ -131,7 +159,9 @@ export function ContributionHeatmap() {
 
       <p className="activity-caption" aria-live="polite">
         <span>{hoveredCopy}</span>
-        <span>Updated Jul 10</span>
+        <span>
+          {copy.updated} {formatters.shortDate.format(UPDATE_DATE)}
+        </span>
       </p>
     </div>
   );

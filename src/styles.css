@@ -162,6 +162,48 @@ button:focus-visible {
   gap: 4px;
 }
 
+.language-toggle {
+  display: flex;
+  height: 32px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 1px;
+  padding: 2px;
+  margin-right: 2px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+}
+
+.language-toggle button {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 620;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.language-toggle button:hover {
+  color: var(--foreground);
+}
+
+.language-toggle button[aria-pressed="true"] {
+  background: var(--surface-hover);
+  color: var(--heading);
+}
+
 .icon-button {
   display: inline-grid;
   width: 28px;
@@ -1040,11 +1082,11 @@ button:focus-visible {
   animation-delay: 170ms;
 }
 
-.education-section {
+.activity-section {
   animation-delay: 210ms;
 }
 
-.activity-section {
+.education-section {
   animation-delay: 250ms;
 }
 
