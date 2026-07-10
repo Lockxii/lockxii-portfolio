@@ -4,6 +4,7 @@ const DESKTOP_QUERY =
   "(min-width: 1101px) and (hover: hover) and (pointer: fine)";
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const TAU = Math.PI * 2;
+const MAX_TILES = 1500;
 
 const PALETTES = {
   light: [
@@ -36,12 +37,15 @@ function nextTileState(tile, theme, now) {
   const palette = PALETTES[theme];
   const energy = Math.random();
   const accent = Math.random();
-  const alphaRange = theme === "dark" ? [0.025, 0.145] : [0.04, 0.2];
-  const pulse = energy > 0.86 ? 1 : 0.35 + energy * 0.45;
+  const isPulse = energy > 0.9;
+  const baseRange = theme === "dark" ? [0.06, 0.14] : [0.07, 0.16];
+  const pulseRange = theme === "dark" ? [0.22, 0.3] : [0.2, 0.27];
+  const range = isPulse ? pulseRange : baseRange;
+  const amount = isPulse ? (energy - 0.9) / 0.1 : energy / 0.9;
 
-  tile.targetAlpha = alphaRange[0] + (alphaRange[1] - alphaRange[0]) * pulse;
+  tile.targetAlpha = range[0] + (range[1] - range[0]) * amount;
   tile.targetColor = palette[Math.floor(accent * palette.length)];
-  tile.nextAt = now + 2800 + Math.random() * 4200;
+  tile.nextAt = now + 900 + Math.random() * 1700;
 }
 
 export function AmbientTileField({ theme }) {
@@ -65,7 +69,7 @@ export function AmbientTileField({ theme }) {
       tiles = [];
       if (!desktopQuery.matches) return;
 
-      const pitch = clamp(Math.round(width / 82), 18, 24);
+      const pitch = clamp(Math.round(width / 88), 18, 22);
       const center = width / 2;
       const quietHalfWidth = 350;
       const now = performance.now();
@@ -76,7 +80,7 @@ export function AmbientTileField({ theme }) {
           const edgeFade = smoothstep(distanceFromCenter, quietHalfWidth, quietHalfWidth + 150);
           const presence = hash(column + 13, row - 7);
 
-          if (edgeFade <= 0 || presence < 0.7) continue;
+          if (edgeFade <= 0 || presence < 0.58) continue;
 
           const seed = hash(column * 1.7 + 5, row * 0.9 - 3);
           const palette = PALETTES[theme];
@@ -84,10 +88,10 @@ export function AmbientTileField({ theme }) {
           const tile = {
             x: x + (hash(column + 31, row + 17) - 0.5) * 3,
             y: y + (hash(column - 19, row + 29) - 0.5) * 3,
-            size: 2.25 + hash(column + 71, row - 43) * 3,
+            size: 3.5 + hash(column + 71, row - 43) * 3,
             edgeFade,
             phase: seed * TAU,
-            alpha: theme === "dark" ? 0.035 + seed * 0.04 : 0.05 + seed * 0.055,
+            alpha: theme === "dark" ? 0.06 + seed * 0.08 : 0.07 + seed * 0.09,
             targetAlpha: 0,
             color: [...color],
             targetColor: color,
@@ -97,6 +101,14 @@ export function AmbientTileField({ theme }) {
           nextTileState(tile, theme, now);
           tiles.push(tile);
         }
+      }
+
+      if (tiles.length > MAX_TILES) {
+        const stride = tiles.length / MAX_TILES;
+        tiles = Array.from(
+          { length: MAX_TILES },
+          (_, index) => tiles[Math.floor(index * stride)],
+        );
       }
     }
 
@@ -120,7 +132,7 @@ export function AmbientTileField({ theme }) {
       if (!desktopQuery.matches) return;
 
       const delta = lastFrame ? Math.min(now - lastFrame, 80) : 16;
-      const easing = staticFrame ? 1 : 1 - Math.exp(-delta / 1450);
+      const easing = staticFrame ? 1 : 1 - Math.exp(-delta / 700);
 
       for (const tile of tiles) {
         if (!staticFrame && now >= tile.nextAt) nextTileState(tile, theme, now);
@@ -131,10 +143,21 @@ export function AmbientTileField({ theme }) {
             (tile.targetColor[channel] - tile.color[channel]) * easing;
         }
 
-        const wave = staticFrame
-          ? 0.82
-          : 0.74 + 0.26 * (0.5 + 0.5 * Math.sin(now * 0.00022 + tile.phase + tile.y * 0.004));
-        const alpha = tile.alpha * tile.edgeFade * wave;
+        const diagonalWave = staticFrame
+          ? 0.5
+          : 0.5 +
+            0.5 * Math.sin(tile.x * 0.008 + tile.y * 0.003 - now * 0.00065);
+        const crossWave = staticFrame
+          ? 0.5
+          : 0.5 +
+            0.5 *
+              Math.sin(tile.x * 0.004 - tile.y * 0.006 + now * 0.00042 + tile.phase * 0.18);
+        const wave = 0.72 + 0.28 * (diagonalWave * 0.7 + crossWave * 0.3);
+        const waveAccent = staticFrame
+          ? 0
+          : smoothstep(diagonalWave * 0.72 + crossWave * 0.28, 0.62, 0.94) *
+            (theme === "dark" ? 0.085 : 0.065);
+        const alpha = (tile.alpha * wave + waveAccent) * tile.edgeFade;
 
         context.fillStyle = `rgba(${Math.round(tile.color[0])}, ${Math.round(tile.color[1])}, ${Math.round(tile.color[2])}, ${alpha.toFixed(3)})`;
         context.fillRect(

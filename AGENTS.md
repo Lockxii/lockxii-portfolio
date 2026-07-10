@@ -13,5 +13,6 @@ When implementing from a selected generated mock, treat that image as the source
 - The contribution heatmap must use GitHub-scale cells (about 10px), show 52 real weeks across the card, scroll horizontally to the latest weeks on mobile, and show each cell's count in a nearby tooltip on hover or focus.
 - Hovering across the contribution heatmap must never restart the reveal animation or make cells disappear or flicker.
 - On wide desktop screens, use a subtle static raster background in the side gutters only; keep the centered content column calm and keep tablet/mobile backgrounds plain.
-- The wide desktop backdrop may animate with slow, sparse square color pulses in the side gutters; make the light theme visibly stronger, keep the centered column calm, hide the effect on tablet/mobile, and respect reduced-motion.
+- The wide desktop backdrop animation must be clearly perceptible within a couple of seconds: use visible square color changes and a slow regional wave in the side gutters, while keeping the centered column calm, hiding the effect on tablet/mobile, and respecting reduced-motion.
 - In dark mode, the TileWordmark color wave must reuse the exact coral, rose, plum, and amber palette from the animated side background; keep the light-mode wave blue and cobalt.
+- Use a crisp pixel-eye favicon on a black rounded tile, with a coral pupil and the portfolio's rose, plum, and amber accents.
