@@ -253,6 +253,7 @@ export const EDUCATION = [
       fr: "Baccalauréat général · Mathématiques & NSI",
     },
     award: { en: "Honors", fr: "Mention Assez bien" },
+    href: "https://stemariebeaucamps.fr/lycee/",
   },
   {
     id: "enigma-school",

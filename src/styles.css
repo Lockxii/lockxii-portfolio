@@ -476,7 +476,7 @@ button:focus-visible {
   min-height: 49px;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   padding: 0 8px;
   margin: 0 -8px;
   border-bottom: 1px solid var(--line);
@@ -504,7 +504,10 @@ button:focus-visible {
 
 .craft-list li > span:last-child {
   color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
   text-align: right;
+  white-space: nowrap;
 }
 
 .craft-grid {
@@ -1251,6 +1254,7 @@ button:focus-visible {
     max-height: 48px;
     overflow: hidden;
     text-align: right;
+    white-space: normal;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
   }
