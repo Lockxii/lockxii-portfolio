@@ -81,6 +81,31 @@ const CRAFT = [
   },
 ];
 
+const EDUCATION = [
+  {
+    period: "2026 — Now",
+    school: "ENIGMA School",
+    location: "Lille · EuraTechnologies",
+    detail: "Bachelor Coordinateur de Projets Informatiques",
+    href: "https://www.enigma-school.com/",
+    current: true,
+  },
+  {
+    period: "2023 — 2026",
+    school: "Lycée Sainte Marie",
+    location: "Beaucamps-Ligny",
+    detail: "Baccalauréat général · Mathématiques & NSI",
+    award: "Mention Assez bien",
+  },
+  {
+    period: "2019 — 2023",
+    school: "Collège Sainte Marie",
+    location: "Beaucamps-Ligny",
+    detail: "Diplôme national du brevet",
+    award: "Mention Très bien",
+  },
+];
+
 const SOCIALS = [
   { label: "GitHub", value: "@Lockxii", href: "https://github.com/Lockxii" },
   { label: "Designee", value: "designee.dev", href: "https://designee.dev" },
@@ -211,6 +236,52 @@ function CraftGrid() {
         </article>
       ))}
     </div>
+  );
+}
+
+function EducationTimeline() {
+  return (
+    <section
+      className="education-section reveal-block"
+      aria-labelledby="education-heading"
+    >
+      <div className="education-header">
+        <h2 id="education-heading">Education</h2>
+        <span aria-hidden="true">03 entries</span>
+      </div>
+
+      <ol className="education-list">
+        {EDUCATION.map((entry) => (
+          <li
+            className={entry.current ? "education-entry is-current" : "education-entry"}
+            key={entry.school}
+          >
+            <p className="education-period">{entry.period}</p>
+            <span className="education-marker" aria-hidden="true" />
+            <div className="education-copy">
+              <div className="education-title-row">
+                <h3>
+                  {entry.href ? (
+                    <a href={entry.href} target="_blank" rel="noreferrer">
+                      {entry.school}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : (
+                    entry.school
+                  )}
+                </h3>
+                {entry.current ? <span className="education-current">Current</span> : null}
+              </div>
+              <p className="education-location">{entry.location}</p>
+              <p className="education-detail">
+                <span>{entry.detail}</span>
+                {entry.award ? <span className="education-award">{entry.award}</span> : null}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 
@@ -391,6 +462,8 @@ export function App() {
         />
         {craftView === "list" ? <CraftList /> : <CraftGrid />}
       </section>
+
+      <EducationTimeline />
 
       <section className="activity-section reveal-block" aria-labelledby="activity-heading">
         <div className="activity-header">
