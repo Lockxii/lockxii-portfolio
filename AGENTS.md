@@ -13,3 +13,4 @@ When implementing from a selected generated mock, treat that image as the source
 - The contribution heatmap must use GitHub-scale cells (about 10px), show 52 real weeks across the card, scroll horizontally to the latest weeks on mobile, and show each cell's count in a nearby tooltip on hover or focus.
 - Hovering across the contribution heatmap must never restart the reveal animation or make cells disappear or flicker.
 - On wide desktop screens, use a subtle static raster background in the side gutters only; keep the centered content column calm and keep tablet/mobile backgrounds plain.
+- The wide desktop backdrop may animate with slow, sparse square color pulses in the side gutters; make the light theme visibly stronger, keep the centered column calm, hide the effect on tablet/mobile, and respect reduced-motion.

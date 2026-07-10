@@ -7,6 +7,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
+import { AmbientTileField } from "./AmbientTileField.jsx";
 import { ContributionHeatmap } from "./ContributionHeatmap.jsx";
 import { TileWordmark } from "./TileWordmark.jsx";
 
@@ -300,6 +301,7 @@ export function App() {
 
   return (
     <>
+      <AmbientTileField theme={theme} />
       <main className="page-shell">
       <header className="site-header reveal-block">
         <div>
