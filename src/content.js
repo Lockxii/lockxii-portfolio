@@ -92,19 +92,19 @@ export const COPY = {
       craftPreview: (name) => `Aperçu de ${name}`,
     },
     intro: {
-      greeting: "Bonjour, je suis Lockxii, un",
+      greeting: "Moi, c'est Lockxii. Je suis",
       role: "développeur fullstack",
-      focus: "spécialisé dans les produits numériques.",
-      built: "J'ai récemment créé",
+      focus: "et je conçois des produits numériques.",
+      built: "J'ai créé",
       designee:
-        ", une bibliothèque consultable de plus de 300 composants React.",
-      prysmLead: "Je travaille aussi sur",
+        ", une bibliothèque de plus de 300 composants React prêts à l'emploi.",
+      prysmLead: "Je développe aussi",
       prysm:
-        ", un espace de veille dédié aux créateurs pour le web, Chrome et Shopify.",
+        ", une plateforme de veille dédiée aux créateurs qui réunit une app web, une extension Chrome et des outils Shopify.",
       care:
-        "J'accorde beaucoup d'importance aux interfaces utiles et aux produits rapides, soignés et faciles à comprendre.",
-      more: "Envie d'en voir plus ? Parcourez mon",
-      moreJoin: "ou découvrez ce que je construis sur",
+        "J'aime concevoir des interfaces utiles et des produits rapides, soignés et simples à utiliser.",
+      more: "Pour en voir plus, jetez un œil à mon",
+      moreJoin: "ou découvrez",
     },
     sections: {
       projects: "Projets",
@@ -256,7 +256,7 @@ export const EDUCATION = [
   },
   {
     id: "enigma-school",
-    period: { en: "2026 — Now", fr: "2026 — Aujourd'hui" },
+    period: { en: "2026 — Now", fr: "Depuis 2026" },
     school: "ENIGMA School",
     location: "Lille · EuraTechnologies",
     detail: {

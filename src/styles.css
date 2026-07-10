@@ -593,7 +593,7 @@ button:focus-visible {
   line-height: 20px;
   letter-spacing: 0.015em;
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .education-marker {
@@ -1205,6 +1205,12 @@ button:focus-visible {
   .education-marker {
     width: 7px;
     height: 7px;
+  }
+
+  .education-period {
+    font-size: 11px;
+    line-height: 16px;
+    white-space: nowrap;
   }
 
   .education-entry:not(:last-child)::after {

@@ -18,3 +18,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Use a crisp pixel-eye favicon on a black rounded tile, with a coral pupil and the portfolio's rose, plum, and amber accents.
 - The education section should be a compact editorial timeline below GitHub activity, ordered oldest to newest and ending with ENIGMA School; it must include the user's bac and brevet distinctions.
 - Keep English as the default and provide a persistent EN/FR toggle in the header that translates all visible copy, controls, accessibility labels, heatmap tooltips, dates, and metadata.
+- French copy should read as naturally authored rather than literally translated; keep timeline periods inside their date column, using "Depuis 2026" for the current entry.
