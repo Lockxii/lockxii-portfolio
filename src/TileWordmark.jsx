@@ -15,14 +15,8 @@ const ROWS = [
     font: (px) => `600 ${px}px ui-sans-serif, system-ui, Arial, sans-serif`,
     letterTrack: -0.02,
     fillFrac: 0.92,
-    bright: false,
   },
 ]
-
-const REST = 'oklch(0.64 0.006 263)'
-const BRAND_HUE = 263
-const GLOW_LCH = '0.42 0.07 263'
-const SPARK = '70,100,180'
 
 const MAXSZ = 0.9
 const SPEED = 0.02
@@ -37,8 +31,47 @@ function hash(x, y) {
   return r - Math.floor(r)
 }
 
-const HUE_STEPS = 24
+const COLOR_STEPS = 24
 const ALPHA_STEPS = 6
+
+function createColorSteps(colors) {
+  return Array.from({ length: COLOR_STEPS }, (_, index) => {
+    const position = (index / COLOR_STEPS) * colors.length
+    const colorIndex = Math.floor(position)
+    const mix = position - colorIndex
+    const from = colors[colorIndex % colors.length]
+    const to = colors[(colorIndex + 1) % colors.length]
+    const channels = from.map((channel, channelIndex) =>
+      Math.round(channel + (to[channelIndex] - channel) * mix),
+    )
+    return `rgb(${channels.join(',')})`
+  })
+}
+
+const THEMES = {
+  light: {
+    rest: 'oklch(0.64 0.006 263)',
+    colors: createColorSteps([
+      [17, 0, 255],
+      [67, 101, 211],
+      [93, 131, 196],
+      [142, 103, 196],
+    ]),
+    glow: '67,101,211',
+    spark: '93,131,196',
+  },
+  dark: {
+    rest: 'oklch(0.64 0.012 28)',
+    colors: createColorSteps([
+      [235, 121, 95],
+      [203, 105, 112],
+      [157, 91, 139],
+      [235, 168, 111],
+    ]),
+    glow: '203,105,112',
+    spark: '235,168,111',
+  },
+}
 
 class TileField {
   host
@@ -46,6 +79,7 @@ class TileField {
   ctx
   reduced
   word
+  theme
 
   dpr = Math.min(2, window.devicePixelRatio || 1)
   viewW = 0
@@ -56,7 +90,6 @@ class TileField {
   n = 0
   px = new Float32Array(0)
   py = new Float32Array(0)
-  rowOf = new Uint8Array(0)
   hueSeed = new Float32Array(0)
   spark = new Uint8Array(0)
   lit = new Float32Array(0)
@@ -71,12 +104,10 @@ class TileField {
 
   raf = 0
 
-  stepL = new Float32Array(HUE_STEPS)
-  stepC = new Float32Array(HUE_STEPS)
-
   constructor(host, opts = {}) {
     this.host = host
     this.word = opts.word ?? ROWS[0].word
+    this.theme = opts.theme === 'dark' ? 'dark' : 'light'
 
     this.canvas = document.createElement('canvas')
     this.canvas.className = 'tile-wordmark-canvas'
@@ -124,7 +155,6 @@ class TileField {
 
     const xs = []
     const ys = []
-    const rw = []
     const sp = []
     const sd = []
     const hs = []
@@ -164,7 +194,6 @@ class TileField {
           const gy = ly + bandTop
           xs.push(gx)
           ys.push(gy)
-          rw.push(ri)
           sp.push(hash(gx + 7, gy - 3) > 0.82 ? 1 : 0)
           sd.push(hash(gx * 1.3, gy * 0.7))
           hs.push(hash(gx * 0.7 + 11, gy * 1.9 - 5))
@@ -175,7 +204,6 @@ class TileField {
     this.n = xs.length
     this.px = new Float32Array(xs)
     this.py = new Float32Array(ys)
-    this.rowOf = new Uint8Array(rw)
     this.spark = new Uint8Array(sp)
     this.seed = new Float32Array(sd)
     this.hueSeed = new Float32Array(hs)
@@ -200,7 +228,7 @@ class TileField {
 
   frame = (t) => {
     const ctx = this.ctx
-    const { viewW, viewH, cell, n, px, py, rowOf, hueSeed, spark, lit, seed } = this
+    const { viewW, viewH, cell, n, px, py, hueSeed, spark, lit, seed } = this
 
     ctx.clearRect(0, 0, viewW, viewH)
     this.time += SPEED
@@ -231,11 +259,10 @@ class TileField {
 
     const grayP = new Path2D()
     const litList = []
-    const buckets = Array.from({ length: HUE_STEPS }, () =>
+    const buckets = Array.from({ length: COLOR_STEPS }, () =>
       Array.from({ length: ALPHA_STEPS }, () => new Path2D()),
     )
-
-    const hueOfStep = new Float32Array(HUE_STEPS)
+    const theme = THEMES[this.theme]
 
     for (let i = 0; i < n; i++) {
       const x = px[i]
@@ -275,38 +302,24 @@ class TileField {
       grayP.rect(x - h, y - h, sz, sz)
 
       if (colorAmt > 0.04) {
-        let hue
-        let chroma
-        if (ROWS[rowOf[i]].bright) {
-          hue = (hueSeed[i] * 360 + time * 26) % 360
-          chroma = 0.19
-        } else {
-          const drift = (flow - 0.8) * 16
-          hue = BRAND_HUE + drift + (hueSeed[i] - 0.5) * 8
-          chroma = 0.085
-        }
-        const hStep = ((Math.round((hue / 360) * HUE_STEPS) % HUE_STEPS) + HUE_STEPS) % HUE_STEPS
-        const lightness = ROWS[rowOf[i]].bright ? 0.62 : 0.5
-        hueOfStep[hStep] = hue
+        const palettePosition =
+          ((hueSeed[i] + u * 0.28 + v * 0.12 + time * 0.008 + flow * 0.025) % 1 + 1) % 1
+        const colorStep = Math.floor(palettePosition * COLOR_STEPS) % COLOR_STEPS
         const as = Math.min(ALPHA_STEPS - 1, Math.floor(colorAmt * ALPHA_STEPS))
-        buckets[hStep][as].rect(x - h, y - h, sz, sz)
-
-        this.stepL[hStep] = lightness
-        this.stepC[hStep] = chroma
+        buckets[colorStep][as].rect(x - h, y - h, sz, sz)
       }
 
       if (lit[i] > 0.02) litList.push(i)
     }
 
-    ctx.fillStyle = REST
+    ctx.fillStyle = theme.rest
     ctx.fill(grayP)
 
-    for (let hsI = 0; hsI < HUE_STEPS; hsI++) {
-      const hue = hueOfStep[hsI]
+    for (let colorStep = 0; colorStep < COLOR_STEPS; colorStep++) {
       for (let as = 0; as < ALPHA_STEPS; as++) {
-        const p = buckets[hsI][as]
+        const p = buckets[colorStep][as]
         ctx.globalAlpha = (as + 1) / ALPHA_STEPS
-        ctx.fillStyle = `oklch(${this.stepL[hsI]} ${this.stepC[hsI]} ${hue})`
+        ctx.fillStyle = theme.colors[colorStep]
         ctx.fill(p)
       }
     }
@@ -324,12 +337,12 @@ class TileField {
         const amp = (0.45 + ph) * cell * 0.28
         const jx = x + Math.sin(0.05 * x + 1.3 * tt + ph * TAU) * amp
         const jy = y + Math.cos(0.04 * y - 0.9 * tt + ph * TAU) * amp
-        ctx.fillStyle = `rgba(${SPARK},${(0.1 * L).toFixed(3)})`
+        ctx.fillStyle = `rgba(${theme.spark},${(0.1 * L).toFixed(3)})`
         ctx.fillRect(jx - gh * 1.5, jy - gh * 1.5, gsz * 1.5, gsz * 1.5)
-        ctx.fillStyle = `rgba(${SPARK},${(0.55 * L).toFixed(3)})`
+        ctx.fillStyle = `rgba(${theme.spark},${(0.55 * L).toFixed(3)})`
         ctx.fillRect(jx - gh, jy - gh, gsz, gsz)
       } else {
-        ctx.fillStyle = `oklch(${GLOW_LCH} / ${(0.85 * L).toFixed(3)})`
+        ctx.fillStyle = `rgba(${theme.glow},${(0.85 * L).toFixed(3)})`
         ctx.fillRect(x - gh, y - gh, gsz, gsz)
       }
     }
@@ -346,7 +359,7 @@ class TileField {
       const h = sz / 2
       grayP.rect(this.px[i] - h, this.py[i] - h, sz, sz)
     }
-    ctx.fillStyle = REST
+    ctx.fillStyle = THEMES[this.theme].rest
     ctx.fill(grayP)
   }
 
@@ -390,14 +403,14 @@ class TileField {
   }
 }
 
-export function TileWordmark({ word = 'designee', className = '' }) {
+export function TileWordmark({ word = 'designee', className = '', theme = 'light' }) {
   const hostRef = useRef(null)
 
   useEffect(() => {
     const host = hostRef.current
     if (!host) return
 
-    const field = new TileField(host, { word })
+    const field = new TileField(host, { word, theme })
 
     const resizeObserver = new ResizeObserver(() => field.resize())
     resizeObserver.observe(host)
@@ -415,7 +428,7 @@ export function TileWordmark({ word = 'designee', className = '' }) {
       intersectionObserver.disconnect()
       field.destroy()
     }
-  }, [word])
+  }, [word, theme])
 
   return (
     <div

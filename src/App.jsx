@@ -430,7 +430,7 @@ export function App() {
       </section>
 
       <div className="wordmark-section reveal-block">
-        <TileWordmark word="lockxii" />
+        <TileWordmark word="lockxii" theme={theme} />
       </div>
 
       <section className="elsewhere reveal-block" aria-labelledby="elsewhere-heading">

@@ -14,3 +14,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Hovering across the contribution heatmap must never restart the reveal animation or make cells disappear or flicker.
 - On wide desktop screens, use a subtle static raster background in the side gutters only; keep the centered content column calm and keep tablet/mobile backgrounds plain.
 - The wide desktop backdrop may animate with slow, sparse square color pulses in the side gutters; make the light theme visibly stronger, keep the centered column calm, hide the effect on tablet/mobile, and respect reduced-motion.
+- In dark mode, the TileWordmark color wave must reuse the exact coral, rose, plum, and amber palette from the animated side background; keep the light-mode wave blue and cobalt.
