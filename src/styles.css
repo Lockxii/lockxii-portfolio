@@ -528,8 +528,14 @@ button:focus-visible {
 }
 
 .contribution-heatmap {
+  display: flow-root;
   width: 100%;
   margin-top: 18px;
+}
+
+.contribution-scroll {
+  width: 100%;
+  overflow: visible;
 }
 
 .contribution-grid {
@@ -537,20 +543,21 @@ button:focus-visible {
   width: 100%;
   grid-auto-flow: column;
   grid-template-rows: repeat(7, auto);
-  grid-template-columns: repeat(14, minmax(0, 1fr));
-  gap: clamp(3px, 0.7vw, 5px);
+  grid-template-columns: repeat(52, minmax(0, 1fr));
+  gap: 2px;
 }
 
 .activity-cell {
   position: relative;
-  width: min(78%, 24px);
+  width: 100%;
+  max-width: 10px;
   min-width: 0;
   height: auto;
   aspect-ratio: 1;
   justify-self: center;
   padding: 0;
   border: 0;
-  border-radius: clamp(3px, 0.6vw, 5px);
+  border-radius: 2px;
   opacity: 0;
   background: var(--activity-empty);
   cursor: crosshair;
@@ -591,7 +598,7 @@ button:focus-visible {
   transform-origin: left bottom;
 }
 
-.activity-cell[data-week="13"]::after {
+.activity-cell[data-week="51"]::after {
   right: 0;
   left: auto;
   transform: translate(0, 4px) scale(0.94);
@@ -636,8 +643,8 @@ button:focus-visible {
 
 .activity-cell[data-week="0"]:hover::after,
 .activity-cell[data-week="0"]:focus::after,
-.activity-cell[data-week="13"]:hover::after,
-.activity-cell[data-week="13"]:focus::after {
+.activity-cell[data-week="51"]:hover::after,
+.activity-cell[data-week="51"]:focus::after {
   transform: translate(0, 0) scale(1);
 }
 
@@ -877,6 +884,31 @@ button:focus-visible {
 
   .github-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contribution-scroll {
+    padding: 28px 0 2px;
+    margin-top: -28px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  .contribution-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .contribution-grid {
+    width: max-content;
+    min-width: 100%;
+    grid-template-columns: repeat(52, 10px);
+    gap: 3px;
+  }
+
+  .activity-cell {
+    width: 10px;
+    max-width: none;
   }
 
   .craft-list li:last-child {
