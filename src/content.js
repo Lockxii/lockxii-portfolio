@@ -237,7 +237,7 @@ export const EDUCATION = [
       en: "French national middle-school diploma",
       fr: "Diplôme national du brevet",
     },
-    award: { en: "Highest honors", fr: "Mention Très bien" },
+    award: { en: "Highest honors", fr: "Mention très bien" },
   },
   {
     id: "lycee-sainte-marie",
@@ -248,7 +248,7 @@ export const EDUCATION = [
       en: "French general baccalaureate · Mathematics & Computer Science",
       fr: "Baccalauréat général · Mathématiques & NSI",
     },
-    award: { en: "Honors (Assez bien)", fr: "Mention assez bien" },
+    award: { en: "Honors", fr: "Mention assez bien" },
     href: "https://stemariebeaucamps.fr/lycee/",
   },
   {
