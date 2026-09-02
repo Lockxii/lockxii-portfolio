@@ -263,8 +263,8 @@ export const EDUCATION = [
     school: "ENIGMA School",
     location: "Lille · EuraTechnologies",
     detail: {
-      en: "Bachelor's degree in IT Project Coordination",
-      fr: "Bachelor Coordinateur de Projets Informatiques",
+      en: "Bachelor's degree in IT Project Coordination · Year 2",
+      fr: "Bachelor Coordinateur de Projets Informatiques · 2ᵉ année",
     },
     href: "https://www.enigma-school.com/",
     current: true,
