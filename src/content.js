@@ -27,12 +27,9 @@ export const COPY = {
       greeting: "Hi, I'm Lockxii, a",
       role: "fullstack developer",
       focus: "focused on digital products.",
-      built: "I recently built",
-      designee:
-        ", a searchable library of 300+ React components.",
-      prysmLead: "I'm also working on",
-      prysm:
-        ", a creator intelligence workspace spanning web, Chrome, and Shopify.",
+      building: "I'm currently building",
+      datyo:
+        ", a SaaS research platform for exploring revenue estimates, traffic, pricing, and ads.",
       care:
         "I care deeply about useful interfaces and obsess over products that feel fast, polished, and straightforward.",
       more: "Want to see more? Browse my",
@@ -96,12 +93,9 @@ export const COPY = {
       greeting: "Moi, c'est Lockxii. Je suis",
       role: "développeur fullstack",
       focus: "et je conçois des produits numériques.",
-      built: "J'ai créé",
-      designee:
-        ", une bibliothèque de plus de 300 composants React prêts à l'emploi.",
-      prysmLead: "Je développe aussi",
-      prysm:
-        ", une plateforme de veille dédiée aux créateurs qui réunit une app web, une extension Chrome et des outils Shopify.",
+      building: "Je développe actuellement",
+      datyo:
+        ", une plateforme de veille SaaS pour analyser les revenus estimés, le trafic, les tarifs et les publicités.",
       care:
         "J'aime concevoir des interfaces utiles et des produits rapides, soignés et simples à utiliser.",
       more: "Pour en voir plus, jetez un œil à mon",

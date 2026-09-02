@@ -23,4 +23,5 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep craft-list rows on one line on desktop, using smaller secondary copy when needed; education school names should link to their official site when a URL is available.
 - Use dark mode as the first-visit default while preserving an explicit saved light-mode choice.
 - Feature Datyo (spelled D-A-T-Y-O, https://www.datyo.app/) in place of Storecrew, including its craft preview. Keep Designee.
+- The introduction should feature current work on Datyo and describe its SaaS research features in both English and French; its closing project link should also point to Datyo.
 - Keep GitHub activity automatic through the Vercel endpoint with a six-hour cache and no credentials. Contributions, active days, and longest streak must use the same validated 52-week calendar; preserve real GitHub levels and the last valid data if a refresh fails.

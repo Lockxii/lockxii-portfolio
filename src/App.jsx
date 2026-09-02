@@ -422,17 +422,15 @@ export function App() {
           {copy.intro.focus}
         </p>
         <p>
-          {copy.intro.built} <a href="https://designee.dev">Designee</a>
-          {copy.intro.designee} {copy.intro.prysmLead}{" "}
-          <a href="https://tryprysm.com">Prysm</a>
-          {copy.intro.prysm}
+          {copy.intro.building} <a href="https://www.datyo.app/">Datyo</a>
+          {copy.intro.datyo}
         </p>
         <p>{copy.intro.care}</p>
         <p>
           {copy.intro.more}{" "}
           <a href="https://github.com/Lockxii">GitHub</a>{" "}
           {copy.intro.moreJoin}{" "}
-          <a href="https://designee.dev">Designee</a>.
+          <a href="https://www.datyo.app/">Datyo</a>.
         </p>
       </section>
 
