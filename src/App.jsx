@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { AmbientTileField } from "./AmbientTileField.jsx";
 import { ContributionHeatmap } from "./ContributionHeatmap.jsx";
-import githubActivity from "./data/github-activity.json";
+import { useGitHubActivity } from "./useGitHubActivity.js";
 import {
   COPY,
   CRAFT,
@@ -301,6 +301,7 @@ function useLanguage() {
 export function App() {
   const [theme, setTheme] = useTheme();
   const [language, setLanguage] = useLanguage();
+  const githubActivity = useGitHubActivity();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [projectView, setProjectView] = useState("grid");
   const [craftView, setCraftView] = useState("list");
@@ -503,12 +504,12 @@ export function App() {
             <dd>{numberFormatter.format(githubActivity.totalContributions)}</dd>
           </div>
           <div>
-            <dt>{copy.activity.publicCommits}</dt>
-            <dd>{numberFormatter.format(githubActivity.publicCommits)}</dd>
+            <dt>{copy.activity.activeDays}</dt>
+            <dd>{numberFormatter.format(githubActivity.activeDays)}</dd>
           </div>
           <div>
-            <dt>{copy.activity.privateActivity}</dt>
-            <dd>{numberFormatter.format(githubActivity.privateContributions)}</dd>
+            <dt>{copy.activity.longestStreak}</dt>
+            <dd>{numberFormatter.format(githubActivity.longestStreak)} {copy.activity.days}</dd>
           </div>
           <div>
             <dt>{copy.activity.publicRepos}</dt>

@@ -50,10 +50,11 @@ export const COPY = {
       seeMore: "See more",
     },
     activity: {
-      subtitle: "Last 52 weeks · Updated daily",
+      subtitle: "Last 52 weeks · Updated automatically",
       contributions: "Contributions",
-      publicCommits: "Public commits",
-      privateActivity: "Private activity",
+      activeDays: "Active days",
+      longestStreak: "Longest streak",
+      days: "days",
       publicRepos: "Public repos",
     },
     education: {
@@ -118,10 +119,11 @@ export const COPY = {
       seeMore: "Voir plus",
     },
     activity: {
-      subtitle: "52 dernières semaines · Mise à jour quotidienne",
+      subtitle: "52 dernières semaines · Actualisation automatique",
       contributions: "Contributions",
-      publicCommits: "Commits publics",
-      privateActivity: "Activité privée",
+      activeDays: "Jours actifs",
+      longestStreak: "Meilleure série",
+      days: "jours",
       publicRepos: "Dépôts publics",
     },
     education: {

@@ -3,97 +3,95 @@ import { mkdtemp, readFile, rmdir, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { contributionRange, createSnapshot, refreshActivity } from "./update-github-activity.mjs";
+import { contributionRange, createSnapshot } from "../src/github-activity.js";
+import { parseCalendar } from "../lib/github-activity.mjs";
+import { refreshActivity } from "./update-github-activity.mjs";
 
 const NOW = new Date("2026-09-02T12:00:00.000Z");
 
-function githubResponse() {
-  const days = Array.from({ length: 361 }, (_, index) => ({
+function calendarDays() {
+  return Array.from({ length: 361 }, (_, index) => ({
     date: new Date(Date.UTC(2025, 8, 7 + index)).toISOString().slice(0, 10),
-    contributionCount: index === 360 ? 5 : 0,
-    contributionLevel: index === 360 ? "FOURTH_QUARTILE" : "NONE",
+    count: [0, 1, 2, 100, 358, 359, 360].includes(index) ? 5 : 0,
+    level: [0, 1, 2, 100, 358, 359, 360].includes(index) ? 4 : 0,
   }));
-  return {
-    repositories: { totalCount: 10 },
-    contributionsCollection: {
-      totalCommitContributions: 2,
-      restrictedContributionsCount: 3,
-      contributionCalendar: { totalContributions: 5, weeks: [{ contributionDays: days }] },
-    },
-  };
 }
 
-test("the displayed range starts on Sunday and contains 52 week columns", () => {
-  assert.deepEqual(contributionRange(NOW), {
-    from: "2025-09-07T00:00:00.000Z",
-    to: "2026-09-02T12:00:00.000Z",
-  });
-  assert.equal(contributionRange(new Date("2026-09-06T00:01:00Z")).from, "2025-09-14T00:00:00.000Z");
-  assert.equal(contributionRange(new Date("2026-09-05T23:59:59Z")).from, "2025-09-07T00:00:00.000Z");
+function calendarHTML() {
+  return calendarDays().reverse().map((day, index) =>
+    '<td data-date="' + day.date + '" id="day-' + index + '" data-level="' + day.level + '"></td>' +
+    '<tool-tip for="day-' + index + '">' + (day.count || "No") + ' contributions on this day.</tool-tip>'
+  ).join("\n");
+}
+
+function fakeGitHub(url) {
+  return Promise.resolve(url.includes("api.github.com")
+    ? Response.json({ login: "Lockxii", public_repos: 10 })
+    : new Response(calendarHTML()));
+}
+
+test("the range stays Sunday-aligned across week, year, and leap-day boundaries", () => {
+  assert.deepEqual(contributionRange(NOW), { from: "2025-09-07", to: "2026-09-02" });
+  assert.equal(contributionRange(new Date("2026-09-06T00:01:00Z")).from, "2025-09-14");
+  assert.equal(contributionRange(new Date("2026-09-05T23:59:59Z")).from, "2025-09-07");
+  assert.equal(contributionRange(new Date("2027-01-01T12:00:00Z")).from, "2026-01-04");
+  assert.equal(contributionRange(new Date("2024-02-29T12:00:00Z")).from, "2023-03-05");
 });
 
-test("calendar boundaries survive New Year and leap day", () => {
-  assert.equal(contributionRange(new Date("2027-01-01T12:00:00Z")).from, "2026-01-04T00:00:00.000Z");
-  assert.equal(contributionRange(new Date("2024-02-29T12:00:00Z")).from, "2023-03-05T00:00:00.000Z");
+test("public calendar cells are matched to their counts and sorted chronologically", () => {
+  assert.deepEqual(parseCalendar(calendarHTML(), NOW), calendarDays());
+  const changed = calendarHTML().replace("5 contributions", "1,234 contributions");
+  assert.equal(parseCalendar(changed, NOW).at(-1).count, 1234);
 });
 
-test("the headline and heatmap share one total and preserve real GitHub levels", () => {
-  const snapshot = createSnapshot(githubResponse(), NOW);
-  assert.equal(snapshot.totalContributions, 5);
-  assert.equal(snapshot.publicCommits, 2);
-  assert.equal(snapshot.privateContributions, 3);
+test("contributions, active days, and streaks come from exactly the visible calendar", () => {
+  const snapshot = createSnapshot({ days: calendarDays(), publicRepos: 10, updatedAt: NOW.toISOString() });
+  assert.equal(snapshot.totalContributions, 35);
+  assert.equal(snapshot.activeDays, 7);
+  assert.equal(snapshot.longestStreak, 3);
   assert.equal(snapshot.publicRepos, 10);
   assert.equal(snapshot.days.length, 361);
-  assert.deepEqual(snapshot.days.at(-1), { date: "2026-09-02", count: 5, level: 4 });
+  assert.equal(snapshot.days.at(-1).date, "2026-09-02");
 });
 
-test("missing, duplicate, or inconsistent calendar data is rejected", () => {
-  const missing = githubResponse();
-  missing.contributionsCollection.contributionCalendar.weeks[0].contributionDays.pop();
-  assert.throws(() => createSnapshot(missing, NOW), /Incomplete/);
-  const duplicate = githubResponse();
-  const days = duplicate.contributionsCollection.contributionCalendar.weeks[0].contributionDays;
-  days[1] = days[0];
-  assert.throws(() => createSnapshot(duplicate, NOW), /Incomplete/);
-  const inconsistent = githubResponse();
-  inconsistent.contributionsCollection.contributionCalendar.totalContributions = 6;
-  assert.throws(() => createSnapshot(inconsistent, NOW), /do not match/);
+test("missing days, duplicate dates, invalid counts, and changed markup are rejected", () => {
+  const input = { days: calendarDays(), publicRepos: 10, updatedAt: NOW.toISOString() };
+  assert.throws(() => createSnapshot({ ...input, days: input.days.slice(1) }), /calendar/);
+  const duplicate = calendarDays();
+  duplicate[1] = duplicate[0];
+  assert.throws(() => createSnapshot({ ...input, days: duplicate }), /calendar/);
+  const invalid = calendarDays();
+  invalid[0].count = -1;
+  assert.throws(() => createSnapshot({ ...input, days: invalid }), /calendar/);
+  const missingTooltips = calendarHTML().replaceAll("tool-tip", "unknown-element");
+  assert.throws(() => createSnapshot({ ...input, days: parseCalendar(missingTooltips, NOW) }), /calendar/);
 });
 
-test("HTTP and GraphQL failures leave the last valid snapshot untouched", async (t) => {
+test("upstream failures never overwrite the last valid snapshot", async (t) => {
   const directory = await mkdtemp(join(tmpdir(), "portfolio-activity-"));
   const output = join(directory, "activity.json");
   await writeFile(output, "previous snapshot");
   t.after(async () => { await unlink(output); await rmdir(directory); });
   await assert.rejects(refreshActivity({
-    token: "test-token", now: NOW, output,
-    fetcher: async () => new Response("unavailable", { status: 503 }),
+    now: NOW, output, fetcher: async () => new Response("unavailable", { status: 503 }),
   }), /HTTP 503/);
   await assert.rejects(refreshActivity({
-    token: "test-token", now: NOW, output,
-    fetcher: async () => Response.json({ errors: [{ message: "Rate limited" }] }),
-  }), /rejected/);
-  await assert.rejects(refreshActivity({
-    token: "test-token", now: NOW, output,
-    fetcher: async () => Response.json({ data: { user: null } }),
-  }), /Missing/);
+    now: NOW, output, fetcher: async (url) => url.includes("api.github.com")
+      ? Response.json({ login: "Lockxii", public_repos: 10 }) : new Response("<html>Changed markup</html>"),
+  }), /calendar/);
   assert.equal(await readFile(output, "utf8"), "previous snapshot");
 });
 
-test("a successful refresh writes only the public snapshot, never the credential", async (t) => {
+test("a successful refresh needs no token and writes only normalized public data", async (t) => {
   const directory = await mkdtemp(join(tmpdir(), "portfolio-activity-"));
   const output = join(directory, "activity.json");
   t.after(async () => { await unlink(output); await rmdir(directory); });
   const snapshot = await refreshActivity({
-    token: "test-token", now: NOW, output,
+    now: NOW, output,
     fetcher: async (url, options) => {
-      assert.equal(url, "https://api.github.com/graphql");
-      assert.equal(options.headers.Authorization, "Bearer test-token");
-      assert.deepEqual(JSON.parse(options.body).variables, { login: "Lockxii", ...contributionRange(NOW) });
-      return Response.json({ data: { user: githubResponse() } });
+      assert.equal(options.headers.Authorization, undefined);
+      return fakeGitHub(url);
     },
   });
-  const saved = await readFile(output, "utf8");
-  assert.deepEqual(JSON.parse(saved), snapshot);
-  assert.ok(!saved.includes("test-token"));
+  assert.deepEqual(JSON.parse(await readFile(output, "utf8")), snapshot);
 });

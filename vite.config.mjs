@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import githubActivity from "./api/github-activity.js";
 
 export default defineConfig({
   optimizeDeps: {
@@ -12,5 +13,13 @@ export default defineConfig({
       clientFiles: ["./src/main.jsx"],
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: "github-activity-api",
+      configureServer(server) {
+        server.middlewares.use("/api/github-activity", githubActivity);
+      },
+    },
+  ],
 });

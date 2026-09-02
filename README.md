@@ -21,31 +21,28 @@ npm run build
 
 ## GitHub activity
 
-The counters and 52-week calendar share `src/data/github-activity.json`. The
-`Update GitHub activity` workflow refreshes it daily at 05:23 UTC, on collector
-changes, and on manual runs from the Actions tab. The existing Vercel Git
-integration deploys the refreshed snapshot after the workflow commits it.
+The site refreshes its activity through `/api/github-activity` on page load
+and every six hours while a page stays open. Vercel caches successful responses
+for six hours and can serve the cached response during background revalidation.
+No GitHub token, GitHub Actions workflow, or additional service is required.
 
-The collector uses GitHub's GraphQL API and the workflow's built-in
-`GITHUB_TOKEN`; no personal token or Vercel secret needs to be configured.
-Only public counters, daily contribution counts, and anonymized private
-activity already shared on the profile are published. The workflow's token
-can read public contributions and write the snapshot to this repository.
+The endpoint reads GitHub's public contribution calendar and public profile API.
+It publishes only day counts, GitHub's own color levels, and the public
+repository count. Anonymous private contributions are included only as already
+shared on the public profile.
 
-The reporting range starts on Sunday, 51 weeks before the current week, and
-ends on the refresh date. Future days are left blank. Public commits and
-private activity use the same period as the calendar; public repositories
-is the current profile count. GitHub's own contribution levels set the colors.
+Contributions, active days, and the longest consecutive-day streak are computed
+from the same 52 displayed weeks: 51 past weeks plus the current week, starting
+on Sunday. The current public repository count is displayed alongside them.
+Future days remain blank; missing days or unexpected calendar markup cause the
+refresh to fail instead of fabricating zeroes.
 
-If GitHub is unavailable, rate-limited, or returns incomplete data, the
-workflow fails without replacing the last valid snapshot. The displayed
-refresh date remains the date of the last successful update.
+The bundled `src/data/github-activity.json` snapshot renders immediately. A
+validated, more recent snapshot is also saved in the visitor's browser. If
+GitHub or the endpoint is unavailable, the site keeps the last valid figures
+and their real refresh date. No loading screen is needed.
 
-To refresh locally, provide `GH_TOKEN` (or `GITHUB_TOKEN`) through your shell's
-environment and run `npm run update:github`. Never commit credentials or use
-a `VITE_*` variable for a GitHub token. Run `npm test` to check date boundaries,
-calendar consistency, and failed-refresh handling. Node.js 22 or newer is required.
-
-GitHub can delay scheduled runs and may disable schedules on public
-repositories after prolonged inactivity. The workflow remains manually
-runnable from the Actions tab.
+`npm run dev` serves the same API handler locally through Vite middleware.
+Use `npm run update:github` to refresh the bundled fallback before deploying,
+and `npm test` to check the parser, calendar boundaries, streak calculations,
+and failed-refresh handling. Node.js 22 or newer is required.

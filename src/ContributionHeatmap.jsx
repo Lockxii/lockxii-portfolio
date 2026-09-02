@@ -46,7 +46,7 @@ export function ContributionHeatmap({ language = "en", activity }) {
   useEffect(() => {
     const scroller = scrollRef.current;
     if (scroller) scroller.scrollLeft = scroller.scrollWidth;
-  }, []);
+  }, [activity.from]);
 
   useEffect(() => {
     const element = rootRef.current;
