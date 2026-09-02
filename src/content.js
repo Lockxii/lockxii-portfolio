@@ -50,7 +50,7 @@ export const COPY = {
       seeMore: "See more",
     },
     activity: {
-      subtitle: "Real activity from 2026",
+      subtitle: "Last 52 weeks · Updated daily",
       contributions: "Contributions",
       publicCommits: "Public commits",
       privateActivity: "Private activity",
@@ -64,7 +64,7 @@ export const COPY = {
       subtitle: "Where to find me online",
     },
     footer: {
-      updated: "Last updated · July 2026",
+      updated: "Last updated · September 2026",
     },
   },
   fr: {
@@ -118,7 +118,7 @@ export const COPY = {
       seeMore: "Voir plus",
     },
     activity: {
-      subtitle: "Activité réelle en 2026",
+      subtitle: "52 dernières semaines · Mise à jour quotidienne",
       contributions: "Contributions",
       publicCommits: "Commits publics",
       privateActivity: "Activité privée",
@@ -132,7 +132,7 @@ export const COPY = {
       subtitle: "Où me retrouver en ligne",
     },
     footer: {
-      updated: "Dernière mise à jour · juillet 2026",
+      updated: "Dernière mise à jour · septembre 2026",
     },
   },
 };
@@ -163,15 +163,15 @@ export const PROJECTS = [
     imagePosition: "center top",
   },
   {
-    name: "Storecrew",
+    name: "Datyo",
     description: {
-      en: "AI agents that turn briefs, URLs, and products into launch-ready Shopify storefronts.",
-      fr: "Des agents IA qui transforment briefs, URL et produits en boutiques Shopify prêtes à lancer.",
+      en: "SaaS research: revenue estimates, pricing, and ads.",
+      fr: "Veille SaaS : revenus estimés, tarifs et publicités.",
     },
-    category: { en: "Commerce", fr: "Commerce" },
+    category: { en: "SaaS", fr: "SaaS" },
     year: "2026",
-    href: "https://www.storecrew.io",
-    image: "/projects/storecrew.png",
+    href: "https://www.datyo.app/",
+    image: "/projects/datyo.png",
     imagePosition: "center top",
   },
   {
@@ -220,13 +220,13 @@ export const CRAFT = [
     imagePosition: "center top",
   },
   {
-    id: "shopify-agents",
-    name: { en: "Shopify Agents", fr: "Agents Shopify" },
+    id: "saas-intelligence",
+    name: { en: "SaaS Intelligence", fr: "Veille SaaS" },
     description: {
-      en: "From product URL to a branded Shopify storefront",
-      fr: "D'une URL de produit à une boutique Shopify de marque",
+      en: "Revenue estimates, pricing, traffic, and SaaS ad research",
+      fr: "Revenus estimés, tarifs, trafic et publicités SaaS",
     },
-    image: "/projects/storecrew.png",
+    image: "/projects/datyo.png",
     imagePosition: "center top",
   },
 ];

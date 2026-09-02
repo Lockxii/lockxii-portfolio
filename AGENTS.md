@@ -21,3 +21,5 @@ When implementing from a selected generated mock, treat that image as the source
 - French copy should read as naturally authored rather than literally translated; keep timeline periods inside their date column, using "Depuis 2026" for the current entry.
 - Keep craft-list rows on one line on desktop, using smaller secondary copy when needed; education school names should link to their official site when a URL is available.
 - Use dark mode as the first-visit default while preserving an explicit saved light-mode choice.
+- Feature Datyo (spelled D-A-T-Y-O, https://www.datyo.app/) in place of Storecrew, including its craft preview. Keep Designee.
+- Keep GitHub activity automatic: all counters and the 52-week heatmap must use the same validated daily snapshot, preserve real GitHub levels, and retain the last valid data if a refresh fails.

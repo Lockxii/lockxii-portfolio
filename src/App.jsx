@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { AmbientTileField } from "./AmbientTileField.jsx";
 import { ContributionHeatmap } from "./ContributionHeatmap.jsx";
+import githubActivity from "./data/github-activity.json";
 import {
   COPY,
   CRAFT,
@@ -499,23 +500,23 @@ export function App() {
         <dl className="github-stats">
           <div>
             <dt>{copy.activity.contributions}</dt>
-            <dd>{numberFormatter.format(3059)}</dd>
+            <dd>{numberFormatter.format(githubActivity.totalContributions)}</dd>
           </div>
           <div>
             <dt>{copy.activity.publicCommits}</dt>
-            <dd>{numberFormatter.format(419)}</dd>
+            <dd>{numberFormatter.format(githubActivity.publicCommits)}</dd>
           </div>
           <div>
             <dt>{copy.activity.privateActivity}</dt>
-            <dd>{numberFormatter.format(2634)}</dd>
+            <dd>{numberFormatter.format(githubActivity.privateContributions)}</dd>
           </div>
           <div>
             <dt>{copy.activity.publicRepos}</dt>
-            <dd>{numberFormatter.format(9)}</dd>
+            <dd>{numberFormatter.format(githubActivity.publicRepos)}</dd>
           </div>
         </dl>
 
-        <ContributionHeatmap language={language} />
+        <ContributionHeatmap language={language} activity={githubActivity} />
       </section>
 
       <EducationTimeline language={language} copy={copy} />
@@ -543,7 +544,7 @@ export function App() {
 
         <footer className="site-footer reveal-block">
           <span>{copy.footer.updated}</span>
-          <span>© 2026 Lockxii</span>
+          <span>© {new Date().getFullYear()} Lockxii</span>
         </footer>
       </main>
     </>
