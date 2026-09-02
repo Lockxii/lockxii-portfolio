@@ -17,6 +17,7 @@ When implementing from a selected generated mock, treat that image as the source
 - In dark mode, the TileWordmark color wave must reuse the exact coral, rose, plum, and amber palette from the animated side background; keep the light-mode wave blue and cobalt.
 - Use a crisp pixel-eye favicon on a black rounded tile, with a coral pupil and the portfolio's rose, plum, and amber accents.
 - The education section should be a compact editorial timeline below GitHub activity, ordered oldest to newest and ending with ENIGMA School; it must include the user's bac and brevet distinctions.
+- The user's baccalaureate was obtained with "mention assez bien"; preserve that exact distinction in both the French and English versions.
 - The ENIGMA School entry should explicitly state that the user is in the second year of the bachelor's degree, in both English and French.
 - Keep English as the default and provide a persistent EN/FR toggle in the header that translates all visible copy, controls, accessibility labels, heatmap tooltips, dates, and metadata.
 - French copy should read as naturally authored rather than literally translated; keep timeline periods inside their date column, using "Depuis 2026" for the current entry.

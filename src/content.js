@@ -248,7 +248,7 @@ export const EDUCATION = [
       en: "French general baccalaureate · Mathematics & Computer Science",
       fr: "Baccalauréat général · Mathématiques & NSI",
     },
-    award: { en: "Honors", fr: "Mention Assez bien" },
+    award: { en: "Honors (Assez bien)", fr: "Mention assez bien" },
     href: "https://stemariebeaucamps.fr/lycee/",
   },
   {
