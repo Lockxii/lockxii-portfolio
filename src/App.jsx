@@ -1,11 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Grid2X2,
   List,
   Moon,
   Sun,
-  Volume2,
-  VolumeX,
 } from "lucide-react";
 import { AmbientTileField } from "./AmbientTileField.jsx";
 import { ContributionHeatmap } from "./ContributionHeatmap.jsx";
@@ -14,8 +12,10 @@ import {
   COPY,
   CRAFT,
   EDUCATION,
+  NOW,
   PROJECTS,
   SOCIALS,
+  STACK,
   localized,
 } from "./content.js";
 import { TileWordmark } from "./TileWordmark.jsx";
@@ -236,6 +236,61 @@ function EducationTimeline({ language, copy }) {
   );
 }
 
+function DetailRows({ id, title, meta, rows, language }) {
+  return (
+    <section className="detail-section reveal-block" aria-labelledby={id}>
+      <div className="education-header">
+        <h2 id={id}>{title}</h2>
+        {meta ? <span aria-hidden="true">{meta}</span> : null}
+      </div>
+
+      <dl className="detail-list">
+        {rows.map((row) => (
+          <div className="detail-row" key={row.id}>
+            <dt>{localized(row.label, language)}</dt>
+            <dd>
+              <ul>
+                {row.items.map((item) => {
+                  const text = localized(item, language);
+                  return <li key={text}>{text}</li>;
+                })}
+              </ul>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+function NowSection({ language, copy }) {
+  return (
+    <section className="now-section reveal-block" aria-labelledby="now-heading">
+      <div className="education-header">
+        <h2 id="now-heading">{copy.sections.now}</h2>
+        <span aria-hidden="true">
+          {String(NOW.goals.length).padStart(2, "0")} {copy.stack.goals}
+        </span>
+      </div>
+
+      <p className="now-learning">
+        <span className="education-marker" aria-hidden="true" />
+        <span className="now-learning-label">{localized(NOW.learning.label, language)}</span>
+        <span className="now-learning-value">{localized(NOW.learning.value, language)}</span>
+      </p>
+
+      <ol className="now-goals">
+        {NOW.goals.map((goal, index) => (
+          <li key={goal.en}>
+            <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            {localized(goal, language)}
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 function useTheme() {
   const [theme, setTheme] = useState(() => {
     try {
@@ -302,73 +357,26 @@ export function App() {
   const [theme, setTheme] = useTheme();
   const [language, setLanguage] = useLanguage();
   const githubActivity = useGitHubActivity();
-  const [soundEnabled, setSoundEnabled] = useState(true);
   const [projectView, setProjectView] = useState("grid");
   const [craftView, setCraftView] = useState("list");
-  const [showAll, setShowAll] = useState(false);
   const copy = COPY[language];
   const numberFormatter = NUMBER_FORMATTERS[language];
 
-  const visibleProjects = useMemo(
-    () => (showAll ? PROJECTS : PROJECTS.slice(0, 2)),
-    [showAll],
-  );
-
-  function playTick() {
-    if (!soundEnabled) return;
-    try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      const context = new AudioContext();
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      oscillator.type = "sine";
-      oscillator.frequency.setValueAtTime(520, context.currentTime);
-      gain.gain.setValueAtTime(0.012, context.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.045);
-      oscillator.connect(gain);
-      gain.connect(context.destination);
-      oscillator.start();
-      oscillator.stop(context.currentTime + 0.05);
-      oscillator.addEventListener("ended", () => context.close(), { once: true });
-    } catch {
-      // Audio is an enhancement; controls remain functional if it is blocked.
-    }
-  }
-
   function updateProjectView(view) {
     setProjectView(view);
-    playTick();
   }
 
   function updateCraftView(view) {
     setCraftView(view);
-    playTick();
   }
 
   function toggleTheme() {
     setTheme((current) => (current === "light" ? "dark" : "light"));
-    playTick();
   }
 
   function changeLanguage(nextLanguage) {
     if (nextLanguage === language) return;
     setLanguage(nextLanguage);
-    playTick();
-  }
-
-  function toggleSound() {
-    if (!soundEnabled) {
-      setSoundEnabled(true);
-      return;
-    }
-    playTick();
-    setSoundEnabled(false);
-  }
-
-  function toggleProjects() {
-    setShowAll((current) => !current);
-    playTick();
   }
 
   return (
@@ -386,17 +394,6 @@ export function App() {
             labels={copy.header}
             onChange={changeLanguage}
           />
-          <IconButton
-            label={soundEnabled ? copy.header.disableSound : copy.header.enableSound}
-            pressed={soundEnabled}
-            onClick={toggleSound}
-          >
-            {soundEnabled ? (
-              <Volume2 aria-hidden="true" />
-            ) : (
-              <VolumeX aria-hidden="true" />
-            )}
-          </IconButton>
           <IconButton
             label={
               theme === "light"
@@ -422,15 +419,17 @@ export function App() {
           {copy.intro.focus}
         </p>
         <p>
-          {copy.intro.building} <a href="https://www.datyo.app/">Datyo</a>
-          {copy.intro.datyo}
+          {copy.intro.recent} <a href="https://brandsearch.co">BrandSearch</a>{" "}
+          {copy.intro.projectsJoin}{" "}
+          <a href="https://tryprysm.com">Prysm</a>
+          {copy.intro.recentDetail}
         </p>
         <p>{copy.intro.care}</p>
         <p>
           {copy.intro.more}{" "}
           <a href="https://github.com/Lockxii">GitHub</a>{" "}
           {copy.intro.moreJoin}{" "}
-          <a href="https://www.datyo.app/">Datyo</a>.
+          <a href="https://brandsearch.co">BrandSearch</a>.
         </p>
       </section>
 
@@ -447,23 +446,13 @@ export function App() {
 
         {projectView === "grid" ? (
           <ProjectGrid
-            projects={visibleProjects}
+            projects={PROJECTS}
             language={language}
             labels={copy.accessibility}
           />
         ) : (
-          <ProjectList projects={visibleProjects} language={language} />
+          <ProjectList projects={PROJECTS} language={language} />
         )}
-
-        <button
-          className="more-button"
-          type="button"
-          onClick={toggleProjects}
-          aria-expanded={showAll}
-          aria-controls="project-list"
-        >
-          {showAll ? copy.controls.seeLess : copy.controls.seeMore}
-        </button>
       </section>
 
       <section className="craft-section reveal-block" aria-labelledby="craft-heading">
@@ -480,6 +469,14 @@ export function App() {
           <CraftGrid language={language} labels={copy.accessibility} />
         )}
       </section>
+
+      <DetailRows
+        id="stack-heading"
+        title={copy.sections.stack}
+        meta={`${STACK.reduce((total, row) => total + row.items.length, 0)} ${copy.stack.tools}`}
+        rows={STACK}
+        language={language}
+      />
 
       <section className="activity-section reveal-block" aria-labelledby="activity-heading">
         <div className="activity-header">
@@ -520,8 +517,10 @@ export function App() {
 
       <EducationTimeline language={language} copy={copy} />
 
+      <NowSection language={language} copy={copy} />
+
       <div className="wordmark-section reveal-block">
-        <TileWordmark word="arthur mouton" theme={theme} />
+        <TileWordmark word="MOUTON" theme={theme} />
       </div>
 
       <section className="elsewhere reveal-block" aria-labelledby="elsewhere-heading">

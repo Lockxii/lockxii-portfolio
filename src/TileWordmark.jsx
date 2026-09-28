@@ -11,10 +11,10 @@ const TAU = Math.PI * 2
 
 const ROWS = [
   {
-    word: 'designee',
-    font: (px) => `600 ${px}px ui-sans-serif, system-ui, Arial, sans-serif`,
-    letterTrack: -0.02,
-    fillFrac: 0.92,
+    word: 'MOUTON',
+    font: (px) => `900 ${px}px "Geist Variable", "Arial Black", ui-sans-serif, sans-serif`,
+    letterTrack: 0.04,
+    fillFrac: 0.88,
   },
 ]
 
@@ -178,6 +178,10 @@ class TileField {
       fs *= (viewW * row.fillFrac) / measured
       sls.letterSpacing = `${row.letterTrack * fs}px`
       s.font = row.font(fs)
+      s.strokeStyle = '#000'
+      s.lineJoin = 'round'
+      s.lineWidth = fs * 0.06
+      s.strokeText(this.word, viewW / 2, bandH / 2)
       s.fillText(this.word, viewW / 2, bandH / 2)
 
       const data = s.getImageData(0, 0, sc.width, sc.height).data

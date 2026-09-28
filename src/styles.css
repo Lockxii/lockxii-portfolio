@@ -703,6 +703,143 @@ button:focus-visible {
   content: "·";
 }
 
+.detail-section {
+  margin-top: 56px;
+}
+
+.detail-list {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 138px minmax(0, 1fr);
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-row dt {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 26px;
+}
+
+.detail-row dd {
+  margin: 0;
+}
+
+.detail-row ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail-row li {
+  padding: 2px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 20px;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.detail-row li:hover {
+  border-color: var(--line-strong);
+  color: var(--heading);
+}
+
+.now-section {
+  margin-top: 56px;
+}
+
+.now-learning {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.now-learning .education-marker {
+  margin: 0 4px 0 0;
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent);
+  animation: education-marker-pulse 3.2s ease-in-out infinite;
+}
+
+.now-learning-label {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.now-learning-value {
+  color: var(--heading);
+  font-size: 16px;
+  font-weight: 520;
+  line-height: 24px;
+  letter-spacing: -0.008em;
+}
+
+.now-goals {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.now-goals li {
+  display: flex;
+  min-height: 49px;
+  align-items: center;
+  gap: 16px;
+  padding: 0 8px;
+  margin: 0 -8px;
+  border-bottom: 1px solid var(--line);
+  border-radius: 6px 6px 0 0;
+  color: var(--foreground);
+  transition:
+    background-color 180ms ease,
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.now-goals li:last-child {
+  border-bottom: 0;
+}
+
+.now-goals li:hover {
+  background: var(--surface);
+  transform: translateX(-2px);
+}
+
+.now-goals li > span {
+  width: 20px;
+  flex: none;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.015em;
+  font-variant-numeric: tabular-nums;
+  transition: color 180ms ease;
+}
+
+.now-goals li:hover > span {
+  color: var(--accent);
+}
+
 @keyframes education-marker-pulse {
   0%,
   100% {
@@ -957,13 +1094,13 @@ button:focus-visible {
 }
 
 .wordmark-section {
-  margin-top: 72px;
+  margin-top: 28px;
 }
 
 .tile-wordmark {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 112px;
   overflow: clip;
 }
 
@@ -1003,7 +1140,7 @@ button:focus-visible {
 }
 
 .elsewhere {
-  margin-top: 84px;
+  margin-top: 28px;
 }
 
 .elsewhere > p {
@@ -1198,6 +1335,15 @@ button:focus-visible {
     min-height: 68px;
   }
 
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .detail-row dt {
+    line-height: 20px;
+  }
+
   .education-entry {
     min-height: 128px;
     grid-template-columns: 76px 8px minmax(0, 1fr);
@@ -1264,15 +1410,15 @@ button:focus-visible {
   }
 
   .wordmark-section {
-    margin-top: 64px;
+    margin-top: 24px;
   }
 
   .tile-wordmark {
-    height: 132px;
+    height: 80px;
   }
 
   .elsewhere {
-    margin-top: 80px;
+    margin-top: 24px;
   }
 
   .elsewhere a {

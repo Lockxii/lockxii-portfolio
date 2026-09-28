@@ -23,6 +23,11 @@ When implementing from a selected generated mock, treat that image as the source
 - French copy should read as naturally authored rather than literally translated; keep timeline periods inside their date column, using "Depuis 2026" for the current entry.
 - Keep craft-list rows on one line on desktop, using smaller secondary copy when needed; education school names should link to their official site when a URL is available.
 - Use dark mode as the first-visit default while preserving an explicit saved light-mode choice.
-- Feature Datyo (spelled D-A-T-Y-O, https://www.datyo.app/) in place of Storecrew, including its craft preview. Keep Designee.
-- The introduction should feature current work on Datyo and describe its SaaS research features in both English and French; its closing project link should also point to Datyo.
+- Show only Prysm and BrandSearch in Projects. Keep the existing Datyo and Designee craft previews where used.
+- The introduction should describe recent work on BrandSearch and Prysm in both English and French, without claiming either project is hosted on Vercel; its closing project link should point to BrandSearch.
 - Keep GitHub activity automatic through the Vercel endpoint with a six-hour cache and no credentials. Contributions, active days, and longest streak must use the same validated 52-week calendar; preserve real GitHub levels and the last valid data if a refresh fails.
+- Show only "MOUTON" in uppercase in the bottom TileWordmark. In the contact links, include LinkedIn and omit Designee.
+- Use a heavy, bold typeface for the bottom MOUTON tile wordmark, with compact space above and below it.
+- The Craft section should present actual skills and tools, not feature counts or project marketing claims.
+- Mirror the GitHub profile README (github.com/Lockxii/Lockxii): a compact Stack section after Craft (languages, frameworks & tools, databases) and a Now section after Education (currently learning, current goals), both translated. In Now, show learning as a single line with the pulsing accent marker and goals as numbered rows; do not use chips for sentence-length items.
+- Do not show a sound button or play click sounds in the portfolio controls.

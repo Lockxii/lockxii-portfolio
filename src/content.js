@@ -10,8 +10,6 @@ export const COPY = {
       languageLabel: "Language",
       selectEnglish: "Use English",
       selectFrench: "Use French",
-      disableSound: "Disable sound",
-      enableSound: "Enable sound",
       switchToDark: "Switch to dark theme",
       switchToLight: "Switch to light theme",
     },
@@ -27,19 +25,22 @@ export const COPY = {
       greeting: "Hi, I'm Arthur Mouton, a",
       role: "fullstack developer",
       focus: "focused on digital products.",
-      building: "I'm currently building",
-      datyo:
-        ", a SaaS research platform for exploring revenue estimates, traffic, pricing, and ads.",
+      recent: "Recently, I built",
+      projectsJoin: "and",
+      recentDetail:
+        " to explore ecommerce markets and track content creators.",
       care:
         "I care deeply about useful interfaces and obsess over products that feel fast, polished, and straightforward.",
       more: "Want to see more? Browse my",
-      moreJoin: "or see what I'm building on",
+      moreJoin: "or explore",
     },
     sections: {
       projects: "Projects",
       craft: "Craft",
+      stack: "Stack",
       activity: "GitHub activity",
       education: "Education",
+      now: "Now",
       elsewhere: "Elsewhere",
     },
     controls: {
@@ -57,6 +58,10 @@ export const COPY = {
     education: {
       entries: "entries",
       current: "Current",
+    },
+    stack: {
+      tools: "tools",
+      goals: "goals",
     },
     elsewhere: {
       subtitle: "Where to find me online",
@@ -76,8 +81,6 @@ export const COPY = {
       languageLabel: "Langue",
       selectEnglish: "Afficher le portfolio en anglais",
       selectFrench: "Afficher le portfolio en français",
-      disableSound: "Désactiver le son",
-      enableSound: "Activer le son",
       switchToDark: "Passer au thème sombre",
       switchToLight: "Passer au thème clair",
     },
@@ -93,9 +96,10 @@ export const COPY = {
       greeting: "Moi, c'est Arthur Mouton. Je suis",
       role: "développeur fullstack",
       focus: "et je conçois des produits numériques.",
-      building: "Je développe actuellement",
-      datyo:
-        ", une plateforme de veille SaaS pour analyser les revenus estimés, le trafic, les tarifs et les publicités.",
+      recent: "J'ai récemment créé",
+      projectsJoin: "et",
+      recentDetail:
+        " pour explorer les marchés e-commerce et suivre les créateurs de contenu.",
       care:
         "J'aime concevoir des interfaces utiles et des produits rapides, soignés et simples à utiliser.",
       more: "Pour en voir plus, jetez un œil à mon",
@@ -104,8 +108,10 @@ export const COPY = {
     sections: {
       projects: "Projets",
       craft: "Savoir-faire",
+      stack: "Stack technique",
       activity: "Activité GitHub",
       education: "Formation",
+      now: "En ce moment",
       elsewhere: "Ailleurs",
     },
     controls: {
@@ -124,6 +130,10 @@ export const COPY = {
       entries: "étapes",
       current: "En cours",
     },
+    stack: {
+      tools: "outils",
+      goals: "objectifs",
+    },
     elsewhere: {
       subtitle: "Où me retrouver en ligne",
     },
@@ -135,18 +145,6 @@ export const COPY = {
 
 export const PROJECTS = [
   {
-    name: "Designee",
-    description: {
-      en: "A searchable library of 300+ copy-ready React components.",
-      fr: "Une bibliothèque consultable de plus de 300 composants React prêts à copier.",
-    },
-    category: { en: "Product", fr: "Produit" },
-    year: "2026",
-    href: "https://designee.dev",
-    image: "/projects/designee.png",
-    imagePosition: "center 18%",
-  },
-  {
     name: "Prysm",
     description: {
       en: "A creator intelligence workspace with web, Chrome, and Shopify tools.",
@@ -156,18 +154,6 @@ export const PROJECTS = [
     year: "2026",
     href: "https://tryprysm.com",
     image: "/projects/prysm.webp",
-    imagePosition: "center top",
-  },
-  {
-    name: "Datyo",
-    description: {
-      en: "SaaS research: revenue estimates, pricing, and ads.",
-      fr: "Veille SaaS : revenus estimés, tarifs et publicités.",
-    },
-    category: { en: "SaaS", fr: "SaaS" },
-    year: "2026",
-    href: "https://www.datyo.app/",
-    image: "/projects/datyo.png",
     imagePosition: "center top",
   },
   {
@@ -186,41 +172,41 @@ export const PROJECTS = [
 
 export const CRAFT = [
   {
-    id: "component-registry",
-    name: { en: "Component Registry", fr: "Registre de composants" },
+    id: "frontend-development",
+    name: { en: "Frontend Development", fr: "Développement front-end" },
     description: {
-      en: "314 copy-ready React interactions and polished states",
-      fr: "314 interactions React prêtes à copier et états soignés",
+      en: "React, TypeScript, JavaScript, and responsive interfaces",
+      fr: "React, TypeScript, JavaScript et interfaces adaptatives",
     },
     image: "/projects/designee.png",
     imagePosition: "center 20%",
   },
   {
-    id: "market-intelligence",
-    name: { en: "Market Intelligence", fr: "Veille de marché" },
+    id: "product-design",
+    name: { en: "Product Design", fr: "Design produit" },
     description: {
-      en: "7.5M+ stores, 160M+ ads, and competitor tracking",
-      fr: "7,5 M+ boutiques, 160 M+ publicités et suivi concurrentiel",
+      en: "Search flows, data-heavy screens, and clear interactions",
+      fr: "Parcours de recherche, écrans de données et interactions claires",
     },
     image: "/projects/brandsearch.png",
     imagePosition: "center top",
   },
   {
-    id: "creator-extension",
-    name: { en: "Creator Extension", fr: "Extension pour créateurs" },
+    id: "browser-extensions",
+    name: { en: "Browser Extensions", fr: "Extensions de navigateur" },
     description: {
-      en: "One-click creator research across the social web",
-      fr: "Recherche de créateurs en un clic sur les réseaux sociaux",
+      en: "Chrome tools and integrations for creator research",
+      fr: "Outils Chrome et intégrations pour la veille créateurs",
     },
     image: "/projects/prysm.webp",
     imagePosition: "center top",
   },
   {
-    id: "saas-intelligence",
-    name: { en: "SaaS Intelligence", fr: "Veille SaaS" },
+    id: "backend-and-data",
+    name: { en: "Backend & Data", fr: "Back-end et données" },
     description: {
-      en: "Revenue estimates, pricing, traffic, and SaaS ad research",
-      fr: "Revenus estimés, tarifs, trafic et publicités SaaS",
+      en: "Node.js, APIs, and readable data dashboards",
+      fr: "Node.js, API et tableaux de bord lisibles",
     },
     image: "/projects/datyo.png",
     imagePosition: "center top",
@@ -265,9 +251,40 @@ export const EDUCATION = [
   },
 ];
 
+export const STACK = [
+  {
+    id: "languages",
+    label: { en: "Languages", fr: "Langages" },
+    items: ["JavaScript", "TypeScript", "Python", "HTML", "CSS", "SQL"],
+  },
+  {
+    id: "frameworks",
+    label: { en: "Frameworks & tools", fr: "Frameworks et outils" },
+    items: ["Node.js", "React", "Next.js", "Vue", "Express", "Tailwind CSS", "Docker", "Git", "GitHub", "VS Code"],
+  },
+  {
+    id: "databases",
+    label: { en: "Databases", fr: "Bases de données" },
+    items: ["PostgreSQL", "MySQL", "MongoDB"],
+  },
+];
+
+export const NOW = {
+  learning: {
+    label: { en: "Currently learning", fr: "J'apprends" },
+    value: { en: "Backend and DevOps", fr: "Le back-end et le DevOps" },
+  },
+  goals: [
+    { en: "Launch my own SaaS", fr: "Lancer mon propre SaaS" },
+    { en: "Ship more public projects", fr: "Publier davantage de projets open source" },
+    { en: "Master AI-powered funnels", fr: "Maîtriser les tunnels de vente pilotés par l'IA" },
+    { en: "Grow my GitHub portfolio", fr: "Étoffer mon portfolio GitHub" },
+  ],
+};
+
 export const SOCIALS = [
   { label: "GitHub", value: "@Lockxii", href: "https://github.com/Lockxii" },
-  { label: "Designee", value: "designee.dev", href: "https://designee.dev" },
+  { label: "LinkedIn", value: "Arthur Mouton", href: "https://www.linkedin.com/in/arthur-mouton-783a21404/" },
   { label: "Prysm", value: "tryprysm.com", href: "https://tryprysm.com" },
   { label: "Discord", value: "@lockxi", href: "https://discord.com/lockxi" },
 ];
