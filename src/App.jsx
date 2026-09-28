@@ -377,7 +377,7 @@ export function App() {
       <main className="page-shell">
       <header className="site-header reveal-block">
         <div>
-          <h1>Lockxii</h1>
+          <h1>Arthur Mouton</h1>
           <p>{copy.header.role}</p>
         </div>
         <div className="header-actions">
@@ -521,7 +521,7 @@ export function App() {
       <EducationTimeline language={language} copy={copy} />
 
       <div className="wordmark-section reveal-block">
-        <TileWordmark word="lockxii" theme={theme} />
+        <TileWordmark word="arthur mouton" theme={theme} />
       </div>
 
       <section className="elsewhere reveal-block" aria-labelledby="elsewhere-heading">
@@ -543,7 +543,7 @@ export function App() {
 
         <footer className="site-footer reveal-block">
           <span>{copy.footer.updated}</span>
-          <span>© {new Date().getFullYear()} Lockxii</span>
+          <span>© {new Date().getFullYear()} Arthur Mouton</span>
         </footer>
       </main>
     </>

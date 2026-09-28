@@ -1,6 +1,6 @@
-# Lockxii Portfolio
+# Arthur Mouton Portfolio
 
-Personal portfolio for [Lockxii](https://github.com/Lockxii), featuring Designee, Prysm, Datyo, and BrandSearch.
+Personal portfolio for [Arthur Mouton](https://github.com/Lockxii), featuring Designee, Prysm, Datyo, and BrandSearch.
 
 ## Live site
 

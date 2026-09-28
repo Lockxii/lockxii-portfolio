@@ -1,9 +1,9 @@
 export const COPY = {
   en: {
     meta: {
-      title: "Lockxii — Fullstack Developer",
+      title: "Arthur Mouton — Fullstack Developer",
       description:
-        "Lockxii is a fullstack developer building polished web products, automation, and creative tools.",
+        "Arthur Mouton is a fullstack developer building polished web products, automation, and creative tools.",
     },
     header: {
       role: "Fullstack Developer",
@@ -24,7 +24,7 @@ export const COPY = {
       craftPreview: (name) => `${name} preview`,
     },
     intro: {
-      greeting: "Hi, I'm Lockxii, a",
+      greeting: "Hi, I'm Arthur Mouton, a",
       role: "fullstack developer",
       focus: "focused on digital products.",
       building: "I'm currently building",
@@ -67,9 +67,9 @@ export const COPY = {
   },
   fr: {
     meta: {
-      title: "Lockxii — Développeur fullstack",
+      title: "Arthur Mouton — Développeur fullstack",
       description:
-        "Lockxii est un développeur fullstack qui crée des produits web, des automatisations et des outils créatifs soignés.",
+        "Arthur Mouton est un développeur fullstack qui crée des produits web, des automatisations et des outils créatifs soignés.",
     },
     header: {
       role: "Développeur fullstack",
@@ -90,7 +90,7 @@ export const COPY = {
       craftPreview: (name) => `Aperçu de ${name}`,
     },
     intro: {
-      greeting: "Moi, c'est Lockxii. Je suis",
+      greeting: "Moi, c'est Arthur Mouton. Je suis",
       role: "développeur fullstack",
       focus: "et je conçois des produits numériques.",
       building: "Je développe actuellement",
