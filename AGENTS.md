@@ -12,7 +12,7 @@ When implementing from a selected generated mock, treat that image as the source
 - GitHub activity must use real profile data rather than generated placeholder values.
 - The contribution heatmap must use GitHub-scale cells (about 10px), show 52 real weeks across the card, scroll horizontally to the latest weeks on mobile, and show each cell's count in a nearby tooltip on hover or focus.
 - Hovering across the contribution heatmap must never restart the reveal animation or make cells disappear or flicker.
-- On wide desktop screens, use a subtle static raster background in the side gutters only; keep the centered content column calm. On phones, reuse the desktop pixels and colors with a mobile crop, keep Arthur Mouton on one line above the role and controls, and keep compact full-width technology rows. Keep tablets plain.
+- On wide desktop screens, use a subtle static raster background in the side gutters only; keep the centered content column calm. On phones, reuse the desktop pixels and colors with a mobile crop, keep Arthur Mouton on one line with the role close underneath and controls alongside the role, and keep compact full-width technology rows. Keep tablets plain.
 - The wide desktop backdrop animation must be clearly perceptible within a couple of seconds: use visible square color changes and a slow regional wave in the side gutters, while keeping the centered column calm, hiding the effect on tablet/mobile, and respecting reduced-motion.
 - In dark mode, the TileWordmark color wave must reuse the exact coral, rose, plum, and amber palette from the animated side background; keep the light-mode wave blue and cobalt.
 - Use a crisp pixel-eye favicon on a black rounded tile, with a coral pupil and the portfolio's rose, plum, and amber accents.

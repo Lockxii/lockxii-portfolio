@@ -1384,8 +1384,8 @@ button:focus-visible {
   .site-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
+    align-items: start;
+    gap: 6px 12px;
   }
 
   .site-header > div:first-child {
