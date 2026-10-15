@@ -1364,9 +1364,105 @@ button:focus-visible {
   }
 }
 
+@media (max-width: 1100px), (hover: none), (pointer: coarse) {
+  body::before {
+    content: none;
+  }
+
+  .ambient-tile-field {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
+  body::before {
+    content: "";
+    background-position: left top;
+    background-size: auto max(100lvh, 760px);
+  }
+
+  .site-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .site-header > div:first-child {
+    display: contents;
+  }
+
+  .site-header h1 {
+    grid-column: 1 / -1;
+    color: var(--heading);
+    font-size: clamp(28px, 8vw, 34px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+  }
+
+  .site-header p {
+    margin-top: 0;
+    color: var(--accent);
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.025em;
+  }
+
+  .header-actions {
+    grid-column: 2;
+    gap: 8px;
+  }
+
+  .language-toggle {
+    height: 44px;
+    padding: 0;
+    margin: 0;
+    border-radius: 8px;
+  }
+
+  .language-toggle button {
+    width: 44px;
+    height: 42px;
+    border-radius: 7px;
+  }
+
+  .icon-button {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .header-actions > .icon-button {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--surface) 62%, transparent);
+  }
+
+  .intro {
+    margin-top: 28px;
+    line-height: 1.65;
+  }
+
+  .stack-section {
+    padding: 22px 0;
+    border-block: 1px solid var(--line);
+  }
+
   .stack-logos {
     grid-template-columns: repeat(6, 28px);
+    row-gap: 22px;
+  }
+
+  .section-header h2,
+  .education-header h2 {
+    color: var(--foreground);
+    font-weight: 550;
+  }
+
+  .work-section {
+    margin-top: 28px;
   }
 
   .certification-grid {
@@ -1375,7 +1471,7 @@ button:focus-visible {
 
   .page-shell {
     width: 100%;
-    padding: 80px 16px 0;
+    padding: 48px 20px 0;
   }
 
   .project-grid {
@@ -1385,6 +1481,8 @@ button:focus-visible {
 
   .project-media {
     height: 222px;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--heading) 6%, transparent);
   }
 
   .project-copy {
@@ -1536,16 +1634,6 @@ button:focus-visible {
     align-items: flex-start;
     justify-content: flex-start;
     gap: 8px;
-  }
-}
-
-@media (max-width: 1100px), (hover: none), (pointer: coarse) {
-  body::before {
-    content: none;
-  }
-
-  .ambient-tile-field {
-    display: none;
   }
 }
 
