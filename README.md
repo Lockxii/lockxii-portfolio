@@ -1,6 +1,6 @@
 # Arthur Mouton Portfolio
 
-Personal portfolio for [Arthur Mouton](https://github.com/Lockxii), featuring Designee, Prysm, Datyo, and BrandSearch.
+Personal portfolio for [Arthur Mouton](https://github.com/Lockxii), featuring Codeefy, UNSA · CHU Lille, Prysm, BrandSearch, and course certificates.
 
 ## Live site
 

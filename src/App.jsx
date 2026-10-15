@@ -10,9 +10,8 @@ import { ContributionHeatmap } from "./ContributionHeatmap.jsx";
 import { useGitHubActivity } from "./useGitHubActivity.js";
 import {
   COPY,
-  CRAFT,
+  CERTIFICATIONS,
   EDUCATION,
-  NOW,
   PROJECTS,
   SOCIALS,
   STACK,
@@ -83,20 +82,6 @@ function ViewToggle({ value, onChange, section, labels }) {
   );
 }
 
-function SectionHeader({ id, title, view, onViewChange, labels }) {
-  return (
-    <div className="section-header">
-      <h2 id={id}>{title}</h2>
-      <ViewToggle
-        value={view}
-        onChange={onViewChange}
-        section={title}
-        labels={labels}
-      />
-    </div>
-  );
-}
-
 function ProjectGrid({ projects, language, labels }) {
   return (
     <div className="project-grid" id="project-list">
@@ -141,44 +126,6 @@ function ProjectList({ projects, language }) {
         </li>
       ))}
     </ul>
-  );
-}
-
-function CraftList({ language }) {
-  return (
-    <ul className="craft-list" id="craft-list">
-      {CRAFT.map((item) => (
-        <li key={item.id}>
-          <span>{localized(item.name, language)}</span>
-          <span>{localized(item.description, language)}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function CraftGrid({ language, labels }) {
-  return (
-    <div className="craft-grid" id="craft-list">
-      {CRAFT.map((item) => {
-        const name = localized(item.name, language);
-        return (
-          <article className="craft-card reveal-item" key={item.id}>
-            <div className="craft-media">
-              <img
-                src={item.image}
-                alt={labels.craftPreview(name)}
-                style={{ objectPosition: item.imagePosition }}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <h3>{name}</h3>
-            <p>{localized(item.description, language)}</p>
-          </article>
-        );
-      })}
-    </div>
   );
 }
 
@@ -236,57 +183,61 @@ function EducationTimeline({ language, copy }) {
   );
 }
 
-function DetailRows({ id, title, meta, rows, language }) {
+function StackLogos({ copy }) {
   return (
-    <section className="detail-section reveal-block" aria-labelledby={id}>
-      <div className="education-header">
-        <h2 id={id}>{title}</h2>
-        {meta ? <span aria-hidden="true">{meta}</span> : null}
-      </div>
-
-      <dl className="detail-list">
-        {rows.map((row) => (
-          <div className="detail-row" key={row.id}>
-            <dt>{localized(row.label, language)}</dt>
-            <dd>
-              <ul>
-                {row.items.map((item) => {
-                  const text = localized(item, language);
-                  return <li key={text}>{text}</li>;
-                })}
-              </ul>
-            </dd>
-          </div>
+    <section className="stack-section reveal-block" aria-label={copy.sections.stack}>
+      <ul className="stack-logos">
+        {STACK.map((tool) => (
+          <li key={tool.name}>
+            <img
+              className={tool.monochrome ? "stack-logo is-monochrome" : "stack-logo"}
+              src={tool.image}
+              alt={tool.name}
+              title={tool.name}
+              width="28"
+              height="28"
+              decoding="async"
+            />
+          </li>
         ))}
-      </dl>
+      </ul>
     </section>
   );
 }
 
-function NowSection({ language, copy }) {
+function Certifications({ language, copy }) {
+  const dateFormatter = new Intl.DateTimeFormat(language === "fr" ? "fr-FR" : "en-US", {
+    dateStyle: "long",
+    timeZone: "UTC",
+  });
+
   return (
-    <section className="now-section reveal-block" aria-labelledby="now-heading">
+    <section className="certifications-section reveal-block" aria-labelledby="certifications-heading">
       <div className="education-header">
-        <h2 id="now-heading">{copy.sections.now}</h2>
-        <span aria-hidden="true">
-          {String(NOW.goals.length).padStart(2, "0")} {copy.stack.goals}
-        </span>
+        <h2 id="certifications-heading">{copy.sections.certifications}</h2>
       </div>
-
-      <p className="now-learning">
-        <span className="education-marker" aria-hidden="true" />
-        <span className="now-learning-label">{localized(NOW.learning.label, language)}</span>
-        <span className="now-learning-value">{localized(NOW.learning.value, language)}</span>
-      </p>
-
-      <ol className="now-goals">
-        {NOW.goals.map((goal, index) => (
-          <li key={goal.en}>
-            <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-            {localized(goal, language)}
-          </li>
+      <div className="certification-grid">
+        {CERTIFICATIONS.map((entry) => (
+          <a
+            className="certification-card"
+            href={entry.image}
+            target="_blank"
+            rel="noreferrer"
+            key={entry.id}
+          >
+            <div className="certification-media">
+              <img src={entry.image} alt="" loading="lazy" decoding="async" />
+            </div>
+            <h3>{entry.title}</h3>
+            <p className="certification-issuer">{entry.issuer}</p>
+            <p>{localized(entry.detail, language)}</p>
+            <time dateTime={entry.date}>
+              {dateFormatter.format(new Date(`${entry.date}T00:00:00Z`))}
+            </time>
+            <span className="certification-link">{copy.certifications.view} ↗</span>
+          </a>
         ))}
-      </ol>
+      </div>
     </section>
   );
 }
@@ -358,16 +309,11 @@ export function App() {
   const [language, setLanguage] = useLanguage();
   const githubActivity = useGitHubActivity();
   const [projectView, setProjectView] = useState("grid");
-  const [craftView, setCraftView] = useState("list");
   const copy = COPY[language];
   const numberFormatter = NUMBER_FORMATTERS[language];
 
   function updateProjectView(view) {
     setProjectView(view);
-  }
-
-  function updateCraftView(view) {
-    setCraftView(view);
   }
 
   function toggleTheme() {
@@ -427,11 +373,11 @@ export function App() {
         <p>{copy.intro.care}</p>
         <p>
           {copy.intro.more}{" "}
-          <a href="https://github.com/Lockxii">GitHub</a>{" "}
-          {copy.intro.moreJoin}{" "}
-          <a href="https://brandsearch.co">BrandSearch</a>.
+          <a href="https://github.com/Lockxii">GitHub</a>.
         </p>
       </section>
+
+      <StackLogos copy={copy} />
 
       <section className="work-section reveal-block" aria-labelledby="projects-heading">
         <div className="section-header">
@@ -454,29 +400,6 @@ export function App() {
           <ProjectList projects={PROJECTS} language={language} />
         )}
       </section>
-
-      <section className="craft-section reveal-block" aria-labelledby="craft-heading">
-        <SectionHeader
-          id="craft-heading"
-          title={copy.sections.craft}
-          view={craftView}
-          onViewChange={updateCraftView}
-          labels={copy.accessibility}
-        />
-        {craftView === "list" ? (
-          <CraftList language={language} />
-        ) : (
-          <CraftGrid language={language} labels={copy.accessibility} />
-        )}
-      </section>
-
-      <DetailRows
-        id="stack-heading"
-        title={copy.sections.stack}
-        meta={`${STACK.reduce((total, row) => total + row.items.length, 0)} ${copy.stack.tools}`}
-        rows={STACK}
-        language={language}
-      />
 
       <section className="activity-section reveal-block" aria-labelledby="activity-heading">
         <div className="activity-header">
@@ -515,9 +438,9 @@ export function App() {
         <ContributionHeatmap language={language} activity={githubActivity} />
       </section>
 
-      <EducationTimeline language={language} copy={copy} />
+      <Certifications language={language} copy={copy} />
 
-      <NowSection language={language} copy={copy} />
+      <EducationTimeline language={language} copy={copy} />
 
       <div className="wordmark-section reveal-block">
         <TileWordmark word="MOUTON" theme={theme} />

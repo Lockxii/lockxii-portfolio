@@ -12,9 +12,9 @@ const TAU = Math.PI * 2
 const ROWS = [
   {
     word: 'MOUTON',
-    font: (px) => `900 ${px}px "Geist Variable", "Arial Black", ui-sans-serif, sans-serif`,
-    letterTrack: 0.04,
-    fillFrac: 0.88,
+    font: (px) => `400 ${px}px "Archivo Black", "Arial Black", ui-sans-serif, sans-serif`,
+    letterTrack: 0,
+    fillFrac: 0.94,
   },
 ]
 
@@ -169,20 +169,19 @@ class TileField {
       const sls = s
       s.fillStyle = '#000'
       s.textAlign = 'center'
-      s.textBaseline = 'middle'
+      s.textBaseline = 'alphabetic'
 
       let fs = bandH * 0.9
       sls.letterSpacing = `${row.letterTrack * fs}px`
       s.font = row.font(fs)
-      const measured = s.measureText(this.word).width || 1
-      fs *= (viewW * row.fillFrac) / measured
+      const measured = s.measureText(this.word)
+      const glyphHeight = measured.actualBoundingBoxAscent + measured.actualBoundingBoxDescent || fs
+      fs *= Math.min((viewW * row.fillFrac) / (measured.width || 1), (bandH * 0.88) / glyphHeight)
       sls.letterSpacing = `${row.letterTrack * fs}px`
       s.font = row.font(fs)
-      s.strokeStyle = '#000'
-      s.lineJoin = 'round'
-      s.lineWidth = fs * 0.06
-      s.strokeText(this.word, viewW / 2, bandH / 2)
-      s.fillText(this.word, viewW / 2, bandH / 2)
+      const fitted = s.measureText(this.word)
+      const baseline = (bandH + fitted.actualBoundingBoxAscent - fitted.actualBoundingBoxDescent) / 2
+      s.fillText(this.word, viewW / 2, baseline)
 
       const data = s.getImageData(0, 0, sc.width, sc.height).data
       const cols = Math.ceil(viewW / cell)
@@ -415,6 +414,12 @@ export function TileWordmark({ word = 'designee', className = '', theme = 'light
     if (!host) return
 
     const field = new TileField(host, { word, theme })
+    let disposed = false
+    document.fonts.load('400 100px "Archivo Black"').then(() => {
+      if (!disposed) field.resize()
+    }).catch(() => {
+      // The fallback font remains visible if the local font cannot load.
+    })
 
     const resizeObserver = new ResizeObserver(() => field.resize())
     resizeObserver.observe(host)
@@ -428,6 +433,7 @@ export function TileWordmark({ word = 'designee', className = '', theme = 'light
     field.start()
 
     return () => {
+      disposed = true
       resizeObserver.disconnect()
       intersectionObserver.disconnect()
       field.destroy()

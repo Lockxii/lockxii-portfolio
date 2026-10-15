@@ -23,11 +23,12 @@ When implementing from a selected generated mock, treat that image as the source
 - French copy should read as naturally authored rather than literally translated; keep timeline periods inside their date column, using "Depuis 2026" for the current entry.
 - Keep craft-list rows on one line on desktop, using smaller secondary copy when needed; education school names should link to their official site when a URL is available.
 - Use dark mode as the first-visit default while preserving an explicit saved light-mode choice.
-- Show only Prysm and BrandSearch in Projects. Keep the existing Datyo and Designee craft previews where used.
-- The introduction should describe recent work on BrandSearch and Prysm in both English and French, without claiming either project is hosted on Vercel; its closing project link should point to BrandSearch.
+- Show Codeefy, UNSA · CHU Lille, Prysm, and BrandSearch in Projects, with real screenshots and links. The CHU project is the UNSA Chronos V10 consultation at votechr.vercel.app; Codeefy is at codeefy.lockxi.dev.
+- Use a natural, professional tone in French and English. Do not address visitors with the informal French "tu" or use casual greetings. Mention BrandSearch and Prysm, avoid marketing jargon and hosting claims, and close with the GitHub link without repeating a project promotion.
 - Keep GitHub activity automatic through the Vercel endpoint with a six-hour cache and no credentials. Contributions, active days, and longest streak must use the same validated 52-week calendar; preserve real GitHub levels and the last valid data if a refresh fails.
 - Show only "MOUTON" in uppercase in the bottom TileWordmark. In the contact links, include LinkedIn and omit Designee.
-- Use a heavy, bold typeface for the bottom MOUTON tile wordmark, with compact space above and below it.
-- The Craft section should present actual skills and tools, not feature counts or project marketing claims.
-- Mirror the GitHub profile README (github.com/Lockxii/Lockxii): a compact Stack section after Craft (languages, frameworks & tools, databases) and a Now section after Education (currently learning, current goals), both translated. In Now, show learning as a single line with the pulsing accent marker and goals as numbered rows; do not use chips for sentence-length items.
+- Use self-hosted Archivo Black for the bottom MOUTON tile wordmark, with upright proportions. Fit its actual glyph width and height without clipping or stretching; preserve its animated tile colors.
+- Omit the Craft / Savoir-faire and Now / En ce moment sections at the user's request.
+- Show only technology logos after the introduction, with accessible names: JavaScript, TypeScript, Python, PHP, HTML, CSS, SQL, Node.js, React, Next.js, Tailwind CSS, Docker, GitHub, VS Code, PostgreSQL, MySQL, MongoDB, Symfony. Omit Vue, Express, and Git. Fill two complete rows of nine logos on desktop and three rows of six on mobile, spread across the full content width.
+- Show the user's supplied certificates directly after GitHub activity and before Education, with readable previews, issue dates, and links to the full images. The Hugging Face certificate covers Unit 1: Foundations of Agents only.
 - Do not show a sound button or play click sounds in the portfolio controls.

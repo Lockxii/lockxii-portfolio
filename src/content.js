@@ -19,28 +19,25 @@ export const COPY = {
       listView: (section) => `${section}: list view`,
       gridView: (section) => `${section}: grid view`,
       projectPreview: (name) => `${name} interface preview`,
-      craftPreview: (name) => `${name} preview`,
     },
     intro: {
-      greeting: "Hi, I'm Arthur Mouton, a",
+      greeting: "I'm Arthur Mouton, a",
       role: "fullstack developer",
-      focus: "focused on digital products.",
-      recent: "Recently, I built",
+      focus: "building websites and web applications.",
+      recent: "Recent projects include",
       projectsJoin: "and",
       recentDetail:
-        " to explore ecommerce markets and track content creators.",
+        ", for ecommerce research and keeping up with content creators.",
       care:
-        "I care deeply about useful interfaces and obsess over products that feel fast, polished, and straightforward.",
-      more: "Want to see more? Browse my",
-      moreJoin: "or explore",
+        "I develop projects from the initial idea through to launch.",
+      more: "Explore my projects below and my contributions on",
     },
     sections: {
       projects: "Projects",
-      craft: "Craft",
       stack: "Stack",
       activity: "GitHub activity",
       education: "Education",
-      now: "Now",
+      certifications: "Certifications",
       elsewhere: "Elsewhere",
     },
     controls: {
@@ -59,15 +56,17 @@ export const COPY = {
       entries: "entries",
       current: "Current",
     },
+    certifications: {
+      view: "View certificate",
+    },
     stack: {
       tools: "tools",
-      goals: "goals",
     },
     elsewhere: {
       subtitle: "Where to find me online",
     },
     footer: {
-      updated: "Last updated · September 2026",
+      updated: "Last updated · October 2026",
     },
   },
   fr: {
@@ -90,28 +89,25 @@ export const COPY = {
       listView: (section) => `${section} · Vue liste`,
       gridView: (section) => `${section} · Vue grille`,
       projectPreview: (name) => `Aperçu de l'interface de ${name}`,
-      craftPreview: (name) => `Aperçu de ${name}`,
     },
     intro: {
-      greeting: "Moi, c'est Arthur Mouton. Je suis",
+      greeting: "Je suis Arthur Mouton,",
       role: "développeur fullstack",
-      focus: "et je conçois des produits numériques.",
-      recent: "J'ai récemment créé",
+      focus: "et je crée des sites et des applications web.",
+      recent: "Parmi mes projets :",
       projectsJoin: "et",
       recentDetail:
-        " pour explorer les marchés e-commerce et suivre les créateurs de contenu.",
+        ", pour explorer l'e-commerce et suivre les créateurs de contenu.",
       care:
-        "J'aime concevoir des interfaces utiles et des produits rapides, soignés et simples à utiliser.",
-      more: "Pour en voir plus, jetez un œil à mon",
-      moreJoin: "ou découvrez",
+        "Je développe mes projets de la première idée à leur mise en ligne.",
+      more: "Retrouvez mes projets ci-dessous et mes contributions sur",
     },
     sections: {
       projects: "Projets",
-      craft: "Savoir-faire",
       stack: "Stack technique",
       activity: "Activité GitHub",
       education: "Formation",
-      now: "En ce moment",
+      certifications: "Certifications",
       elsewhere: "Ailleurs",
     },
     controls: {
@@ -130,25 +126,51 @@ export const COPY = {
       entries: "étapes",
       current: "En cours",
     },
+    certifications: {
+      view: "Voir l’attestation",
+    },
     stack: {
       tools: "outils",
-      goals: "objectifs",
     },
     elsewhere: {
       subtitle: "Où me retrouver en ligne",
     },
     footer: {
-      updated: "Dernière mise à jour · septembre 2026",
+      updated: "Dernière mise à jour · octobre 2026",
     },
   },
 };
 
 export const PROJECTS = [
   {
+    name: "Codeefy",
+    description: {
+      en: "Coding courses and hands-on exercises in your browser.",
+      fr: "Des cours de code et des exercices dans le navigateur.",
+    },
+    category: { en: "Learning platform", fr: "Plateforme d’apprentissage" },
+    year: "2026",
+    href: "https://codeefy.lockxi.dev",
+    image: "/projects/codeefy.png",
+    imagePosition: "center top",
+  },
+  {
+    name: "UNSA · CHU Lille",
+    description: {
+      en: "A staff consultation website for Lille University Hospital.",
+      fr: "Un site de consultation pour les agents du CHU de Lille.",
+    },
+    category: { en: "Consultation", fr: "Consultation" },
+    year: "2026",
+    href: "https://votechr.vercel.app",
+    image: "/projects/chu-lille.png",
+    imagePosition: "center top",
+  },
+  {
     name: "Prysm",
     description: {
-      en: "A creator intelligence workspace with web, Chrome, and Shopify tools.",
-      fr: "Un espace de veille dédié aux créateurs pour le web, Chrome et Shopify.",
+      en: "Track content creators and keep your research in one place.",
+      fr: "Un outil pour suivre les créateurs et organiser sa veille.",
     },
     category: { en: "SaaS", fr: "SaaS" },
     year: "2026",
@@ -159,56 +181,13 @@ export const PROJECTS = [
   {
     name: "BrandSearch",
     description: {
-      en: "Market research and creative intelligence for winning products, ads, funnels, and competitors.",
-      fr: "Étude de marché et veille créative sur les produits, publicités, tunnels et concurrents performants.",
+      en: "Research ecommerce products, ads, and competitors.",
+      fr: "Un outil pour analyser les produits et les publicités e-commerce.",
     },
     category: { en: "Market intel", fr: "Veille marché" },
     year: "2026",
     href: "https://brandsearch.co",
     image: "/projects/brandsearch.png",
-    imagePosition: "center top",
-  },
-];
-
-export const CRAFT = [
-  {
-    id: "frontend-development",
-    name: { en: "Frontend Development", fr: "Développement front-end" },
-    description: {
-      en: "React, TypeScript, JavaScript, and responsive interfaces",
-      fr: "React, TypeScript, JavaScript et interfaces adaptatives",
-    },
-    image: "/projects/designee.png",
-    imagePosition: "center 20%",
-  },
-  {
-    id: "product-design",
-    name: { en: "Product Design", fr: "Design produit" },
-    description: {
-      en: "Search flows, data-heavy screens, and clear interactions",
-      fr: "Parcours de recherche, écrans de données et interactions claires",
-    },
-    image: "/projects/brandsearch.png",
-    imagePosition: "center top",
-  },
-  {
-    id: "browser-extensions",
-    name: { en: "Browser Extensions", fr: "Extensions de navigateur" },
-    description: {
-      en: "Chrome tools and integrations for creator research",
-      fr: "Outils Chrome et intégrations pour la veille créateurs",
-    },
-    image: "/projects/prysm.webp",
-    imagePosition: "center top",
-  },
-  {
-    id: "backend-and-data",
-    name: { en: "Backend & Data", fr: "Back-end et données" },
-    description: {
-      en: "Node.js, APIs, and readable data dashboards",
-      fr: "Node.js, API et tableaux de bord lisibles",
-    },
-    image: "/projects/datyo.png",
     imagePosition: "center top",
   },
 ];
@@ -251,36 +230,62 @@ export const EDUCATION = [
   },
 ];
 
-export const STACK = [
+export const CERTIFICATIONS = [
   {
-    id: "languages",
-    label: { en: "Languages", fr: "Langages" },
-    items: ["JavaScript", "TypeScript", "Python", "HTML", "CSS", "SQL"],
+    id: "kaggle-intro-machine-learning",
+    title: "Intro to Machine Learning",
+    issuer: "Kaggle",
+    detail: {
+      en: "Introduction to machine learning",
+      fr: "Introduction au machine learning",
+    },
+    date: "2026-10-14",
+    image: "/certifications/kaggle-intro-machine-learning.png",
   },
   {
-    id: "frameworks",
-    label: { en: "Frameworks & tools", fr: "Frameworks et outils" },
-    items: ["Node.js", "React", "Next.js", "Vue", "Express", "Tailwind CSS", "Docker", "Git", "GitHub", "VS Code"],
+    id: "python-data-science",
+    title: "Python 101 for Data Science",
+    issuer: "Cognitive Class · IBM",
+    detail: {
+      en: "Python fundamentals for data science · PY0101EN",
+      fr: "Les bases de Python pour la data science · PY0101EN",
+    },
+    date: "2026-10-10",
+    image: "/certifications/python-data-science.png",
   },
   {
-    id: "databases",
-    label: { en: "Databases", fr: "Bases de données" },
-    items: ["PostgreSQL", "MySQL", "MongoDB"],
+    id: "hugging-face-agents",
+    title: "Fundamentals of Agents",
+    issuer: "Hugging Face",
+    detail: {
+      en: "Agents Course · Unit 1: Foundations of Agents",
+      fr: "Agents Course · Unité 1 : les fondamentaux des agents",
+    },
+    date: "2026-10-07",
+    image: "/certifications/hugging-face-agents.webp",
   },
 ];
 
-export const NOW = {
-  learning: {
-    label: { en: "Currently learning", fr: "J'apprends" },
-    value: { en: "Backend and DevOps", fr: "Le back-end et le DevOps" },
-  },
-  goals: [
-    { en: "Launch my own SaaS", fr: "Lancer mon propre SaaS" },
-    { en: "Ship more public projects", fr: "Publier davantage de projets open source" },
-    { en: "Master AI-powered funnels", fr: "Maîtriser les tunnels de vente pilotés par l'IA" },
-    { en: "Grow my GitHub portfolio", fr: "Étoffer mon portfolio GitHub" },
-  ],
-};
+export const STACK = [
+  { name: "JavaScript", image: "/stack/javascript.svg" },
+  { name: "TypeScript", image: "/stack/typescript.svg" },
+  { name: "Python", image: "/stack/python.svg" },
+  { name: "PHP", image: "/stack/php.svg" },
+  { name: "HTML", image: "/stack/html5.svg" },
+  { name: "CSS", image: "/stack/css3.svg" },
+  { name: "SQL", image: "/stack/sql.svg", monochrome: true },
+  { name: "Node.js", image: "/stack/nodejs.svg" },
+  { name: "React", image: "/stack/react.svg" },
+  { name: "Next.js", image: "/stack/nextjs.svg", monochrome: true },
+  { name: "Tailwind CSS", image: "/stack/tailwindcss.svg" },
+  { name: "Docker", image: "/stack/docker.svg" },
+  { name: "GitHub", image: "/stack/github.svg", monochrome: true },
+  { name: "VS Code", image: "/stack/vscode.svg" },
+  { name: "PostgreSQL", image: "/stack/postgresql.svg" },
+  { name: "MySQL", image: "/stack/mysql.svg" },
+  { name: "MongoDB", image: "/stack/mongodb.svg" },
+  { name: "Symfony", image: "/stack/symfony.svg", monochrome: true },
+];
 
 export const SOCIALS = [
   { label: "GitHub", value: "@Lockxii", href: "https://github.com/Lockxii" },
